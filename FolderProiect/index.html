@@ -13,10 +13,27 @@
         <link rel="shortcut icon" href="../resurse/imagini/favicon/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="../resurse/imagini/favicon/apple-touch-icon.png" />
         <link rel="manifest" href="../resurse/imagini/favicon/site.webmanifest" />
+
+
+        <link rel="stylesheet" type="text/css" href="../resurse/css/general.css" />
+        
+        <!-- css curs 2 -->
+        <style>
+            /*p{*/
+            /*    font-size: 20px;*/
+            /*    color: sienna;*/
+            /*    font-style: italic;*/
+            /*}*/
+            /*p{*/
+            /*    font-size: 20px;*/
+            /*    color: darkolivegreen;*/
+            /*    font-style: italic;*/
+            /*}*/
+        </style>
     </head>
     <body>
         <header>
-            <h1>LegoCorner</h1>
+            <h1 style="color:brown">LegoCorner</h1>
                 <nav aria-label="Meniu principal">
                     <ul>
                         <li><a href="#sectiune1"> Categorii </a>
@@ -33,7 +50,7 @@
         </header>
         <main>
             <section id="quote">
-                <h2><i><quote>-"Why should we only have childhood fun in childhood?Why should we only have childhood fun in childhood?"</quote></i></h2>
+                <h2><i lang="en"><q>-Why should we only have childhood fun in childhood?Why should we only have childhood fun in childhood?</q></i></h2>
                 <p><cite>-C.S. Lewis</cite></p>
             </section>
             <section id="sectiune1">
@@ -59,7 +76,17 @@
                 <section id="subsectiune3">
                     <h3>Noutăți</h3>
                     <p>Fii la curent cu <b>cele mai recente seturi și lansări LEGO</b>! Descoperă cele mai noi modele, ediții speciale și colecții exclusive disponibile acum pe <b>LegoCorner</b>.</p>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/4hkfPm9-U0Q?si=eb7KgtzqghIfv_hq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <div class="container-iframe">
+                        <div class="taburi-iframe">
+                            <a href="https://www.youtube.com/embed/4hkfPm9-U0Q" target="ifr-video">Documentar oficial cu Nigel Mansell</a>
+                            <a href="https://www.youtube.com/embed/T6s_Hlv7P9M" target="ifr-video" >LEGO Ninjago Sezonul 3</a>
+                            <a href="https://www.youtube.com/embed/bNYJOJHdsWc" target="ifr-video" >Seturi noi LEGO Star-wars</a><br/>
+                        </div>
+
+
+                        <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/4hkfPm9-U0Q"
+                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </section>
 
 
@@ -71,7 +98,10 @@
         </main>
         <footer>
             <a href="#">Înapoi la începutul paginii</a>
+            <a href="mailto:ionel@gmail.com">Scrie un mail catre ionel@gmail.com</a>
+            <a href="tel:+40712345678">suna la 0712345678</a>
             <p><small>Copyright &copy;2025 Bercea Mihnea-Cristian</small></p>
+
         </footer>
 
 
