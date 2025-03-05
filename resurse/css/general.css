@@ -1,4 +1,120 @@
-p{
-    color: sienna;
-    /*border: 2px solid blue;*/
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&display=swap');
+
+:root {
+    --padding-standard: 8px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+li, a, button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: brown;
+    text-decoration: none;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #E0BC04;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    border-bottom: 4px solid brown;
+}
+
+#TitluPrinc {
+    color: brown;
+    cursor: pointer;
+}
+
+.CategoriiMari {
+    list-style: none;
+}
+
+.CategoriiMari li {
+    display: inline-block;
+    padding: 0px 20px;
+    position: relative;
+}
+
+.CategoriiMari li a {
+    transition: all 0.3s ease 0s;
+}
+
+.CategoriiMari li a:hover {
+    color: black;
+}
+
+
+.SubCategorii1 {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f4f4f4;
+    list-style: none;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.CategoriiMari li:hover .SubCategorii1 {
+    display: block;
+}
+
+.CategoriiMari li .SubCategorii1 li {
+    padding: 10px 20px;
+}
+
+.CategoriiMari li .SubCategorii1 li a {
+    color: brown;
+}
+
+.CategoriiMari li .SubCategorii1 li a:hover {
+    color: black;
+}
+
+button {
+    padding: 9px 25px;
+    background-color: rgba(0, 136, 169, 1);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+    background-color: rgba(0, 136, 169, 0.8);
+}
+
+main {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+section {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    border-top: 4px solid brown;
+    box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
 }
