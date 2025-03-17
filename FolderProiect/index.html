@@ -4,7 +4,7 @@
         <title>LegoCorner</title> <!-- Titlul ferestrei de susss -->
         <meta charset="UTF-8" /> <!-- traducerea in cod binar a caracterelor (utf 8 , un singur octet ) face buba daca tu ai pus utf 8 si browserul e in utf 16  -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- va fi explicat când ajungem la CSS -->
-        <meta name="keywords" content="lego, lego romania, joc lego, magazin lego, jucarii, cadouri, cadouri copii, set lego, cadouri adulti, cumpara lego"><!--cuvintele cheie ale paginii; majoritatea motoarelor de căutare ignoră keywords -->
+        <meta name="keywords" content="lego, lego romania, magazin lego, jucarii, cadouri, cadouri copii, set lego, cadouri adulti, cumpara lego"><!--cuvintele cheie ale paginii; majoritatea motoarelor de căutare ignoră keywords -->
         <meta name="description" content="LegoCorner - Magazin online dedicat pasionaților de LEGO! Găsește seturi LEGO originale, piese individuale și accesorii pentru construcțiile tale. Comandă acum și dă viață imaginației tale!" /><!-- descrierea paginii, adesea apare sub link când sunt afișate rezultatele căutării -->
         <meta name="author" content="Bercea Mihnea Cristian">  <!-- autorul/autoarea paginii-->
 
@@ -16,7 +16,7 @@
 
 
         <link rel="stylesheet" type="text/css" href="../resurse/css/general.css" />
-        
+        <link rel="stylesheet" type="text/css" href="../resurse/css/nav.css" />
         <!-- css curs 2 -->
         <style>
             /*p{*/
@@ -37,6 +37,8 @@
 
 
             <h1 id="TitluPrinc">LegoCorner</h1>
+
+<!--            sist de navigare subpunctul 6-->
                 <nav aria-label="Meniu principal">
                     <ul class="CategoriiMari">
                         <li><a href="#sectiune1"> Categorii </a>
@@ -49,21 +51,24 @@
                         <li><a href="#sectiune2"> Promoții</a></li>
                     </ul>
                 </nav>
-            <a class="contacte" href="#"><button>Contact</button></a>
-            <a class="termeni" href="#"><button>Termeni si condiții</button></a>
+
 
         </header>
         <main>
+<!--            tagul q si cite , subpunctul 10-->
             <section id="quote">
                 <h2><i lang="en"><q>-Why should we only have childhood fun in childhood?Why should we only have childhood fun in childhood?</q></i></h2>
                 <p><cite>-C.S. Lewis</cite></p>
             </section>
+
+<!--Sectiune imbricata , subsectiunile in sectiune1 ,  subpunctul 5 -->
             <section id="sectiune1">
                 <h2>Categorii</h2>
                 <p>Aici se regasesc produsele noastre <b>LEGO</b></p>
                     <section id="subsectiune1">
                         <h3> Seturi LEGO</h3>
-                        <p><b>Seturi LEGO</b> originale, perfecte pentru <b>cadouri</b> destinate atât copiilor, cât și adulților!</p>
+                        <p><b>Seturi LEGO</b> originale, perfecte pentru <b>cadouri</b> destinate atât copiilor, cât și adulților! Cele mai bune  <b> cadouri adulti </b> ,  <b> cadouri copii</b></p>
+<!--                        subpunctul 8 , imagine-->
                         <figure>
                             <picture>
                                 <source srcset="../resurse/imagini/pozePrincipale/LegoStarwarsMare.png" media="(min-width: 1024px)">
@@ -75,12 +80,13 @@
 
 
                         <p>Exploreaza temele <b>LEGO</b>:</p>
-                        <img src="../resurse/imagini/pozeMaps/LegoThemes.png" usemap="#image-map">
+<!--                        bonus harti de imagine-->
+                        <img src="../resurse/imagini/pozeMaps/LegoThemes.png" usemap="#image-map" alt = "Lego Themes">
 
                         <map name="image-map">
-                            <area target="" alt="LegoTecnhic" title="LegoTecnhic" href="" coords="3,0,186,186" shape="rect">
-                            <area target="" alt="LegoStarWars" title="LegoStarWars" href="" coords="197,0,392,187" shape="rect">
-                            <area target="" alt="LegoTechnic" title="LegoTechnic" href="" coords="400,0,582,184" shape="rect">
+                            <area target="#" alt="LegoTecnhic" title="LegoTecnhic" href="" coords="3,0,186,186" shape="rect">
+                            <area target="#" alt="LegoStarWars" title="LegoStarWars" href="" coords="197,0,392,187" shape="rect">
+                            <area target="#" alt="LegoTechnic" title="LegoTechnic" href="" coords="400,0,582,184" shape="rect">
                         </map>
 
 
@@ -92,6 +98,7 @@
 
                 <section id="subsectiune3">
                     <h3>Noutăți</h3>
+<!--                    linkuri care se deschid in iframe , subpunctul 11 c-->
                     <p>Fii la curent cu <b>cele mai recente seturi și lansări LEGO</b>! Descoperă cele mai noi modele, ediții speciale și colecții exclusive disponibile acum pe <b>LegoCorner</b>.</p>
                     <div class="container-iframe">
                         <div class="taburi-iframe">
@@ -110,9 +117,10 @@
             </section>
             <section id="sectiune2">
                 <h2>Promoții</h2>
-                <p>Profitați de cele mai bune <b>oferte la seturi LEGO</b>! Reduceri exclusive, pachete speciale și <b>promoții</b> limitate pentru toți pasionații de construcții <b>LEGO</b>.</p>
+                <p>Profitați de cele mai bune <b>oferte la seturi LEGO</b>! Reduceri exclusive, pachete speciale și <b>promoții</b> limitate pentru toți pasionații de construcții <b>LEGO Romania </b>.</p>
                 <p>
                     Ofertă nouă la noile seturi LEGO Botanicals,
+<!--                    Bonus mathml-->
                     <math>
                         <mrow>
                             <mn>2</mn>
@@ -124,7 +132,7 @@
                 </p>
 
             </section>
-
+<!--        subpunctul 12 , zona de faq-->
             <section id="FAQ">
                 <h2>Întrebări frecvente</h2>
                 <details>
@@ -154,6 +162,7 @@
                 <details>
                     <summary>Unde pot găsi mai multe informații despre produsele LEGO?</summary>
                     <p>Pentru informații oficiale despre seturile LEGO, instrucțiuni de asamblare sau piese de schimb, vizitați site-ul oficial LEGO:
+<!--                        link extern , subpunctul 11 a-->
                         <a href="https://www.lego.com" target="_blank">www.lego.com</a></p>
                 </details>
             </section>
@@ -167,19 +176,26 @@
 
             <h4>Contact</h4>
             <address>
+<!--                subpunctul 13 c , email-->
                 <p>Scrie un mail către <a href="mailto:legocorner@gmail.com">legocorner@gmail.com</a></p>
+
+<!--                subpunctul 13 a -->
                 <p>Sună la <a href="tel:+40712345678">0712345678</a></p>
+<!--                subpunctul 13 d  , link catre whatsapp-->
                 <p><a href="https://wa.me/40712345678" target="_blank">Chat pe WhatsApp</a></p>
             </address>
-
+<!--            link de download , subpunctul 11 d-->
             <p><a href="../resurse/downloadables/CV%20Bercea%20Mihnea-Cristian.pdf" download>Descarcă CV-ul meu</a></p>
+<!--            bonus afisare pdf-->
             <embed src="../resurse/pdf%20files/Termeni-si-Conditii-Generale.pdf" type="application/pdf" width="400" height="500">
             <p>
+<!--                subpunctul 13 b , locatie google maps-->
                 Ne puteți găsi la locația următoare:
                 <a href="https://www.google.com/maps/place/Facultatea+de+Matematic%C4%83+%C8%99i+Informatic%C4%83/@44.4355393,26.0970118,17z/data=!3m1!4b1!4m6!3m5!1s0x40b1ff472f47f047:0x493984726f0235f9!8m2!3d44.4355355!4d26.0995867!16s%2Fg%2F1td63tdh?entry=ttu&g_ep=EgoyMDI1MDIyNi4xIKXMDSoASAFQAw%3D%3D" target="_blank" >
                     Strada Academiei 14, București 010014
                 </a>
                 </p>
+<!--            bonus iframe cu locatie-->
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2848.884114398501!2d26.097011776586942!3d44.43553930148119!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff472f47f047%3A0x493984726f0235f9!2sFacultatea%20de%20Matematic%C4%83%20%C8%99i%20Informatic%C4%83!5e0!3m2!1sro!2sro!4v1741117894327!5m2!1sro!2sro"
                     width="200"
                     height="150"
@@ -188,10 +204,11 @@
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
             <p>    <small>
+<!--                Subpunctul 14-->
                 &copy; <time datetime="2025-03-04">4 martie 2025</time> Bercea Mihnea-Cristian , toate drepturile rezervate.
             </small></p>
 
-
+<!--            link catre inceputul paginii, subpunctul 11 b-->
             <a href="#">Înapoi la începutul paginii</a>
         </footer>
 

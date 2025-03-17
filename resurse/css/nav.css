@@ -1,0 +1,59 @@
+nav{
+    background-color:var(--culoare-galben);
+    --inaltime-meniu:40px;
+    --latime-buton:100px;
+    height:var(--inaltime-meniu);
+}
+
+ul.CategoriiMari ul {
+    display: none;
+    padding:0;
+}
+
+ul.CategoriiMari {
+    display:flex;
+    list-style-type : none;
+    padding:0;
+}
+
+ul.CategoriiMari li{
+    width:var(--latime-buton);
+    height:var(--inaltime-meniu);
+    border: 1px solid var(--culoare-maro);
+    box-sizing : border-box;
+    text-align: center;
+    font-weight:bold;
+    line-height:var(--inaltime-meniu);
+
+    transition: all 0.5s linear;
+}
+
+ul.CategoriiMari li:hover{
+    background-color:var(--culoare-maro);
+}
+
+ul.CategoriiMari li:hover ul{
+    display:block;
+
+}
+
+
+ul.CategoriiMari li:hover a,ul.meniu li:hover div{
+    color:white;
+    transition: all 0.5s linear;
+}
+
+
+ul.CategoriiMari a,ul.meniu div{
+    color: black;
+    text-decoration: none;
+    display:block;
+    height:100%;
+    cursor:pointer;
+}
+
+
+
+ul.CategoriiMari li div.imag-icon{
+    display:none;
+}

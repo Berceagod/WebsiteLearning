@@ -3,6 +3,9 @@
 
 :root {
     --padding-standard: 8px;
+    --culoare-galben : #E0BC04;
+    --culoare-maro : brown;
+    --culoare-alba : white;
 }
 
 * {
@@ -11,19 +14,18 @@
     box-sizing: border-box;
 }
 
-li, a, button {
-    font-family: "Montserrat", sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    color: brown;
-    text-decoration: none;
+
+#TitluPrinc {
+    color: var(--culoare-maro);
+    cursor: pointer;
 }
+
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #E0BC04;
+    background-color: var(--culoare-galben);
     padding: 20px;
     text-align: center;
     font-size: 24px;
@@ -32,82 +34,23 @@ header {
     border-bottom: 4px solid brown;
 }
 
-#TitluPrinc {
-    color: brown;
-    cursor: pointer;
-}
-
-.CategoriiMari {
-    list-style: none;
-}
-
-.CategoriiMari li {
-    display: inline-block;
-    padding: 0px 20px;
-    position: relative;
-}
-
-.CategoriiMari li a {
-    transition: all 0.3s ease 0s;
-}
-
-.CategoriiMari li a:hover {
-    color: black;
-}
-
-
-.SubCategorii1 {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #f4f4f4;
-    list-style: none;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.CategoriiMari li:hover .SubCategorii1 {
-    display: block;
-}
-
-.CategoriiMari li .SubCategorii1 li {
-    padding: 10px 20px;
-}
-
-.CategoriiMari li .SubCategorii1 li a {
-    color: brown;
-}
-
-.CategoriiMari li .SubCategorii1 li a:hover {
-    color: black;
-}
-
-button {
-    padding: 9px 25px;
-    background-color: rgba(0, 136, 169, 1);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease 0s;
-}
-
-button:hover {
-    background-color: rgba(0, 136, 169, 0.8);
+body{
+    --spatiere-pagina:100px;
+    --spatiere-mica:20px;
 }
 
 main {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-top:var(--spatiere-mica);
+    padding-bottom: var(--spatiere-mica);
+    padding-left: var(--spatiere-pagina);
+    padding-right: var(--spatiere-pagina);
 }
 
 section {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: var(--spatiere-mica);;
+    padding-bottom: var(--spatiere-mica);;
 }
+
 
 footer {
     background-color: #333;
