@@ -156,7 +156,7 @@ footer {
 .container-iframe{
     width: 100%;
     /*max-width: 500px;
-    min-width: 200px;*/
+    min-width: 200px*/
     display: flex;
     flex-direction: column-reverse;
 }
