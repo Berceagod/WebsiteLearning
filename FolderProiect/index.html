@@ -62,10 +62,25 @@
             </section>
 
 <!--Sectiune imbricata , subsectiunile in sectiune1 ,  subpunctul 5 -->
-            <section id="sectiune1">
+
+            <section id="grid-pagina">
+            <section id="TemeLego">
+                <p>Exploreaza temele <b>LEGO</b>:</p>
+                <!--                        bonus harti de imagine-->
+                <img src="../resurse/imagini/pozeMaps/LegoThemes.png" usemap="#image-map" alt = "Lego Themes">
+
+                <map name="image-map">
+                    <area target="#" alt="LegoTecnhic" title="LegoTecnhic" href="" coords="3,0,186,186" shape="rect">
+                    <area target="#" alt="LegoStarWars" title="LegoStarWars" href="" coords="197,0,392,187" shape="rect">
+                    <area target="#" alt="LegoTechnic" title="LegoTechnic" href="" coords="400,0,582,184" shape="rect">
+                </map>
+            </section>
+
+
+            <section id="categorii">
                 <h2>Categorii</h2>
                 <p>Aici se regasesc produsele noastre <b>LEGO</b></p>
-                    <section id="subsectiune1">
+                    <section id="seturi">
                         <h3> Seturi LEGO</h3>
                         <p><b>Seturi LEGO</b> originale, perfecte pentru <b>cadouri</b> destinate atât copiilor, cât și adulților! Cele mai bune  <b> cadouri adulti </b> ,  <b> cadouri copii</b></p>
 <!--                        subpunctul 8 , imagine-->
@@ -77,50 +92,19 @@
                             </picture>
                             <figcaption><b>LEGO Star-Wars</b></figcaption>
                         </figure>
-
-
-                        <p>Exploreaza temele <b>LEGO</b>:</p>
-<!--                        bonus harti de imagine-->
-                        <img src="../resurse/imagini/pozeMaps/LegoThemes.png" usemap="#image-map" alt = "Lego Themes">
-
-                        <map name="image-map">
-                            <area target="#" alt="LegoTecnhic" title="LegoTecnhic" href="" coords="3,0,186,186" shape="rect">
-                            <area target="#" alt="LegoStarWars" title="LegoStarWars" href="" coords="197,0,392,187" shape="rect">
-                            <area target="#" alt="LegoTechnic" title="LegoTechnic" href="" coords="400,0,582,184" shape="rect">
-                        </map>
-
-
                     </section>
-                <section id="subsectiune2">
+                <section id="minifigurine">
                     <h3>Minifigurine</h3>
                     <p>Descoperă colecția noastră de <b>minifigurine LEGO</b>, de la personaje clasice la eroi și personaje exclusive! Completează-ți seturile preferate sau creează propriile aventuri cu aceste <b>figurine LEGO</b> detaliate și pline de personalitate.</p>
                 </section>
-
-                <section id="subsectiune3">
-                    <h3>Noutăți</h3>
-<!--                    linkuri care se deschid in iframe , subpunctul 11 c-->
-                    <p>Fii la curent cu <b>cele mai recente seturi și lansări LEGO</b>! Descoperă cele mai noi modele, ediții speciale și colecții exclusive disponibile acum pe <b>LegoCorner</b>.</p>
-                    <div class="container-iframe">
-                        <div class="taburi-iframe">
-                            <a href="https://www.youtube.com/embed/4hkfPm9-U0Q" target="ifr-video">Documentar oficial cu Nigel Mansell</a>
-                            <a href="https://www.youtube.com/embed/T6s_Hlv7P9M" target="ifr-video" >LEGO Ninjago Sezonul 3</a>
-                            <a href="https://www.youtube.com/embed/bNYJOJHdsWc" target="ifr-video" >Seturi noi LEGO Star-wars</a><br/>
-                        </div>
-
-
-                        <iframe name="ifr-video" width="560" height="315" src="https://www.youtube.com/embed/4hkfPm9-U0Q"
-                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </section>
-
-
             </section>
-            <section id="sectiune2">
+
+            <section id="promotii">
                 <h2>Promoții</h2>
                 <p>Profitați de cele mai bune <b>oferte la seturi LEGO</b>! Reduceri exclusive, pachete speciale și <b>promoții</b> limitate pentru toți pasionații de construcții <b>LEGO Romania </b>.</p>
                 <p>
                     Ofertă nouă la noile seturi LEGO Botanicals,
-<!--                    Bonus mathml-->
+                    <!--                    Bonus mathml-->
                     <math>
                         <mrow>
                             <mn>2</mn>
@@ -130,9 +114,39 @@
                     </math>
                     gratis!
                 </p>
-
             </section>
-<!--        subpunctul 12 , zona de faq-->
+
+                <section id="calendar">
+                    <h3>Aici va fi calendarul</h3>
+                    <p>Calendarul <b>LEGO</b>:</p>
+                </section>
+
+            <section id="noutati">
+                <h3>Noutăți</h3>
+                <!--                    linkuri care se deschid in iframe , subpunctul 11 c-->
+                <p>Fii la curent cu <b>cele mai recente seturi și lansări LEGO</b>! Descoperă cele mai noi modele, ediții speciale și colecții exclusive disponibile acum pe <b>LegoCorner</b>.</p>
+                <div class="container-iframe">
+                    <div class="taburi-iframe">
+                        <a href="https://www.youtube.com/embed/4hkfPm9-U0Q" target="ifr-video">Documentar oficial Nigel Mansell</a>
+                        <a href="https://www.youtube.com/embed/T6s_Hlv7P9M" target="ifr-video" >LEGO Ninjago Sezonul 3</a>
+                        <a href="https://www.youtube.com/embed/bNYJOJHdsWc" target="ifr-video" >Seturi noi LEGO Star-wars</a><br/>
+                    </div>
+
+
+                    <iframe name="ifr-video" width="1560" height="1315" src="https://www.youtube.com/embed/4hkfPm9-U0Q"
+                            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </section>
+
+                <section id="anunturi">
+                    <h2>Anunturi</h2>
+                    <details>
+                        <summary>Urmatoarea saptamana</summary>
+                        <p>Luni pe data de 14/04/2025 va avea loc o reducere de 50%</p>
+                    </details>
+                </section>
+
+
             <section id="FAQ">
                 <h2>Întrebări frecvente</h2>
                 <details>
@@ -167,7 +181,13 @@
                 </details>
             </section>
 
+                <section id="member">
+                    <h2>Devino membru</h2>
+                    <p>Devino membru lego !</p>
+                </section>
 
+
+            </section>
 
 
         </main>

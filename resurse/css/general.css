@@ -3,24 +3,15 @@
 
 :root {
     --padding-standard: 8px;
-    --culoare-galben : #E0BC04;
-    --culoare-maro : brown;
+    --culoare-galben : #FFC215;
+    --culoare-detalii : #FF5115;
     --culoare-alba : white;
+    --culoare-portocalie: #DB8F2A;
+    --culoare-rosie: #DB372A
 }
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+html {
+    font-size : 18px;
 }
-
-
-#TitluPrinc {
-    color: var(--culoare-maro);
-    cursor: pointer;
-}
-
-
 header {
     display: flex;
     justify-content: space-between;
@@ -31,7 +22,7 @@ header {
     font-size: 24px;
     font-weight: bold;
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
-    border-bottom: 4px solid brown;
+    border-bottom: 4px solid var(--culoare-portocalie);
 }
 
 body{
@@ -45,6 +36,27 @@ main {
     padding-left: var(--spatiere-pagina);
     padding-right: var(--spatiere-pagina);
 }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#noutati iframe{
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border: 3px solid var(--culoare-portocalie);
+    box-sizing: border-box;
+}
+
+
+#TitluPrinc {
+    color: var(--culoare-detalii);
+    cursor: pointer;
+}
+
 
 section {
     padding-top: var(--spatiere-mica);;
@@ -58,6 +70,178 @@ footer {
     text-align: center;
     padding: 10px;
     margin-top: 20px;
-    border-top: 4px solid brown;
+    border-top: 4px solid var(--culoare-portocalie);
     box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
+#grid-pagina{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "noutati  noutati  noutati"
+                         "categorii promotii calendar"
+                         "teme  teme  teme"
+                         "anunturi faq  produse";
+
+}
+#grid-pagina > *{
+    outline: 1px solid navy;
+    padding: 7px;
+}
+
+#grid-pagina > figure{
+    margin: 0;
+}
+#grid-pagina img{
+    width: 100%;
+    height : auto;
+    display:block;
+}
+
+#TemeLego{
+    grid-area: teme;
+}
+#categorii {
+    grid-area: categorii;
+}
+#promotii{
+    grid-area: promotii;
+}
+#calendar{
+    grid-area: calendar;
+}
+#noutati{
+    grid-area: noutati;
+}
+#anunturi{
+    grid-area: anunturi;
+}
+#FAQ{
+    grid-area: faq;
+}
+
+
+
+
+.taburi-iframe>a{
+    display: inline-block;
+    padding: 10px 15px;
+    font-size : 10px;
+    width: 100px;
+    height: 50px;
+    border: 1px solid var(--culoare-rosie);
+    background-color: var(--culoare-portocalie);
+    border-top: none;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    color: #333;
+    font-weight: bold;
+    margin: 0 3px;
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    overflow-wrap: break-word;
+}
+
+.taburi-iframe{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    margin-top: -4px;
+    position: relative;
+    padding-bottom: 5px;
+}
+.container-iframe{
+    width: 100%;
+    /*max-width: 500px;
+    min-width: 200px;*/
+    display: flex;
+    flex-direction: column-reverse;
+}
+.container-iframe>iframe{
+    width:100%;
+}
+
+
+
+
+#link-top{
+    position:fixed;
+    bottom:0.3em;
+    opacity:0.5;
+    left:0.3em;
+    width:3rem;
+    box-sizing: border-box;
+    height:3rem;
+    line-height:3rem;
+    text-align:center;
+    border:5px solid grey;
+    border-top-color:red;
+    border-radius:50%;
+    background: rgb(220,220,220);
+}
+#link-top:hover{
+    opacity:1;
+}
+#triunghi{
+    height:0px;
+    width:0;
+    display:inline-block;
+    border-bottom:1.5rem solid grey;
+    border-left:1rem solid transparent;
+    border-right:1rem solid transparent;
+    vertical-align: top;
+    transform: translateY(30%);
+}
+
+
+
+
+
+@media screen and (max-width:1200px) {
+    html{
+        font-size:14px;
+    }
+    body{
+        --spatiere-pagina:50px;
+    }
+    #grid-pagina{
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "noutati  noutati"
+                             "categorii promotii"
+                             "calendar anunturi"
+                             "teme     teme"
+                             "faq      produse";
+
+    }
+
+
+}
+@media screen and (max-width:800px) {
+    #grid-pagina{
+        display: block;
+    }
+
+    html{
+        font-size:10px;
+    }
+
+    body{
+        --spatiere-pagina:20px;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
