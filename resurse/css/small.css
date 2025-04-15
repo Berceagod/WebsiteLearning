@@ -1,0 +1,14 @@
+@media screen and (max-width:800px) {
+    #grid-pagina{
+        display: block;
+    }
+
+    html{
+        font-size:10px;
+    }
+
+    body{
+        --spatiere-pagina:20px;
+    }
+
+}

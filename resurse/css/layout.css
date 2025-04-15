@@ -1,0 +1,56 @@
+#grid-pagina{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: "noutati  noutati  noutati"
+                         "categorii promotii calendar"
+                         "teme  teme  teme"
+                         "anunturi faq  member";
+
+}
+#grid-pagina > *{
+    outline: 1px solid navy;
+    padding: 7px;
+}
+
+#grid-pagina > figure{
+    margin: 0;
+}
+#grid-pagina img{
+    width: 100%;
+    height : auto;
+    display:block;
+}
+
+#TemeLego{
+    grid-area: teme;
+    background: var(--culoare-portocalie);
+
+}
+#categorii {
+    grid-area: categorii;
+    background: var(--culoare-portocalie);
+}
+#promotii{
+    grid-area: promotii;
+    background: var(--culoare-portocalie);
+}
+#calendar{
+    grid-area: calendar;
+    background: var(--culoare-portocalie);
+}
+#noutati{
+    grid-area: noutati;
+    background: var(--culoare-portocalie);
+}
+#anunturi{
+    grid-area: anunturi;
+    background: var(--culoare-portocalie);
+}
+#FAQ{
+    grid-area: faq;
+    background: var(--culoare-portocalie);
+}
+#member{
+    grid-area: member;
+    background: var(--culoare-portocalie);
+}

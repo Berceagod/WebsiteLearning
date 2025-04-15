@@ -17,6 +17,10 @@
 
         <link rel="stylesheet" type="text/css" href="../resurse/css/general.css" />
         <link rel="stylesheet" type="text/css" href="../resurse/css/nav.css" />
+        <link rel="stylesheet" type="text/css" href="../resurse/css/layout.css" />
+        <link rel="stylesheet" type="text/css" href="../resurse/css/medium.css" />
+        <link rel="stylesheet" type="text/css" href="../resurse/css/small.css" />
+        <link rel="stylesheet" type="text/css" href="../resurse/css/tabel.css" />
         <!-- css curs 2 -->
         <style>
             /*p{*/
@@ -184,10 +188,59 @@
                 <section id="member">
                     <h2>Devino membru</h2>
                     <p>Devino membru lego !</p>
+                    <div class="table-container">
+                    <table>
+                        <caption>Beneficii comparate: Membru vs. Non-membru</caption>
+                        <thead>
+                        <tr>
+                            <th rowspan="2">Beneficii</th>
+                            <th id="mate" colspan="2" scope="colgroup">Membru</th>
+                            <th id="info" colspan="2" scope="colgroup">Non-membru</th>
+                        </tr>
+                        <tr>
+                            <th headers="mate">Fizic</th>
+                            <th headers="mate">Online</th>
+                            <th headers="info">Fizic</th>
+                            <th headers="info">Online</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Acces oferte</th>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>DA</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Minifigurine gratis</th>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>NU</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Pre-comanda</th>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>NU</td>
+                            <td>NU</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Zona VIP</th>
+                            <td>DA</td>
+                            <td>NU</td>
+                            <td>NU</td>
+                            <td>NU</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
                 </section>
 
 
             </section>
+
 
 
         </main>
@@ -228,8 +281,12 @@
                 &copy; <time datetime="2025-03-04">4 martie 2025</time> Bercea Mihnea-Cristian , toate drepturile rezervate.
             </small></p>
 
-<!--            link catre inceputul paginii, subpunctul 11 b-->
-            <a href="#">Înapoi la începutul paginii</a>
+
+            <a href="#" id="link-top" title="Mergi sus">
+                <div class="shape-container">
+                    <div class="pizza-slice"></div>
+                </div>
+            </a>
         </footer>
 
 

@@ -1,0 +1,20 @@
+@media screen and (max-width:1200px) {
+    html{
+        font-size:14px;
+    }
+    body{
+        --spatiere-pagina:50px;
+    }
+    #grid-pagina{
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: "noutati  noutati"
+                             "categorii promotii"
+                             "calendar anunturi"
+                             "teme     teme"
+                             "faq      member";
+
+    }
+
+
+}
