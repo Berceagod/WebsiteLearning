@@ -1,110 +1,79 @@
-/* ------ Stiluri Tabel ------ */
-
-/* Definirea culorilor pentru borduri alternate */
-:root {
-    --color-border-even-below: #a0c4e4; /* Culoare c1 (sub rând par) - ex: albastru deschis */
-    --color-border-odd-below: #dcdcdc;  /* Culoare c2 (sub rând impar) - ex: gri deschis */
-    --color-border-cells: #ccc;       /* Culoare generală pentru borduri celule */
-    --color-border-table-inset: #666; /* Culoare pentru border inset tabel */
-    --color-hover-outline: rgba(50, 50, 50, 0.7); /* Culoare outline la hover (gri închis semi-transparent) */
-}
-
-/* Container pentru scrollbar orizontal pe ecrane mici/medii */
+/* Container pentru scroll */
 .table-container {
-    overflow-x: auto; /* Adaugă scrollbar orizontal DOAR când e necesar */
-    /* Optional: adaugă un max-width dacă vrei ca scrollul să apară de la o anumită lățime */
-    /* max-width: 100%; */
+    overflow-x: auto;
+    margin: 1em 0;
 }
 
 /* Stiluri de bază pentru tabel */
 #member table {
-    width: 100%; /* Face tabelul să ocupe lățimea containerului */
-    border-collapse: collapse; /* Face bordurile celulelor să se unească */
-    margin-top: 1em; /* Spațiu deasupra tabelului */
-    border: 5px inset var(--color-border-table-inset); /* Border inset în jurul tabelului */
-    font-size: 0.9em; /* Ajustează mărimea fontului dacă e necesar */
+    width: 100%;
+    border-collapse: collapse;
+    border: 5px inset #4a6fa5;
+    font-family: Arial, sans-serif;
+    min-width: 500px;
 }
 
-/* Poziționare caption sub tabel */
+/* Caption sub tabel */
 #member caption {
     caption-side: bottom;
     text-align: center;
-    margin-top: 0.5em; /* Spațiu între tabel și caption */
+    margin-top: 10px;
     font-style: italic;
-    color: #555;
+    color: #333;
 }
 
-/* Stiluri pentru celulele header (th) și data (td) */
+/* Stiluri pentru celule */
 #member th,
 #member td {
-    border: 1px solid var(--color-border-cells); /* Border de 1px între TOATE celulele */
-    padding: 0.6em 0.8em; /* Spațiu interior în celule */
-    text-align: center; /* Aliniere text */
-    vertical-align: middle; /* Aliniere verticală */
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
 }
 
-/* Stiluri specifice pentru header (thead) */
+/* Stiluri pentru antet */
 #member thead th {
-    background-color: #f2f2f2; /* O culoare de fundal pentru header */
+    background-color: #f8f9fa;
     font-weight: bold;
+    color: #333;
 }
 
-/* Stiluri specifice pentru header-ele de rând (din tbody) */
+/* Stiluri pentru antetul de rând */
 #member tbody th[scope="row"] {
-    text-align: left; /* Aliniere la stânga pentru beneficii */
-    background-color: #fafafa; /* O culoare ușor diferită */
+    text-align: left;
+    background-color: #f1f8ff;
 }
 
-/* -- Cerința 1: Borduri alternate între rânduri -- */
-/* Aplică border jos pe celulele din rândurile pare */
+/* Borduri alternate între rânduri */
 #member tbody tr:nth-child(even) th,
 #member tbody tr:nth-child(even) td {
-    border-bottom: 1px solid var(--color-border-even-below); /* Culoare c1 */
+    border-bottom: 1px solid red;
 }
 
-/* Aplică border jos pe celulele din rândurile impare */
 #member tbody tr:nth-child(odd) th,
 #member tbody tr:nth-child(odd) td {
-    border-bottom: 1px solid var(--color-border-odd-below); /* Culoare c2 */
+    border-bottom: 1px solid blue;
 }
 
-/* Anulăm border-ul specific de jos pentru ULTIMUL rând,
-   pentru a nu avea un border colorat sub tot tabelul,
-   și păstrăm borderul general al celulei */
+/* Elimină border-ul de jos pentru ultimul rând */
 #member tbody tr:last-child th,
 #member tbody tr:last-child td {
-    border-bottom: 1px solid var(--color-border-cells);
+    border-bottom: 1px solid #ddd;
 }
-/* Alternativ, dacă vrei să nu fie niciun border jos la ultimul rând: */
-/*
-#member tbody tr:last-child th,
-#member tbody tr:last-child td {
-   border-bottom: none;
-}
-*/
 
-
-/* -- Cerința 3: Hover effect cu outline -- */
+/* Efect hover pe rânduri */
 #member tbody tr {
-    /* Rezervă spațiu pentru outline și setează tranziția */
     outline: 5px solid transparent;
-    outline-offset: -1px; /* Ajustează offsetul dacă outline-ul pare prea depărtat */
     transition: outline-color 0.5s ease;
 }
 
 #member tbody tr:hover {
-    outline-color: var(--color-hover-outline); /* Afișează outline-ul la hover */
-    cursor: default; /* Poți schimba cursorul dacă dorești */
+    outline-color: rgba(74, 111, 165, 0.7);
+    cursor: pointer;
 }
 
-/* -- Cerința 4: Scrollbar orizontal (realizată prin .table-container) -- */
-/* Nu este nevoie de CSS suplimentar aici, doar de .table-container { overflow-x: auto; } */
-
-/* Opțional: Asigură-te că tabelul are o lățime minimă pentru a forța scroll-ul mai devreme pe ecrane mici */
-/*
-@media (max-width: 768px) { / * Exemplu de breakpoint * /
-    #member table {
-        min-width: 600px; / * Forțează tabelul să fie lat, provocând scroll în container * /
-    }
+/* Stiluri pentru footer */
+#member tfoot td {
+    background-color: #f8f9fa;
+    font-style: italic;
+    text-align: center;
 }
-*/
