@@ -1,0 +1,43 @@
+@media (max-width: 700px) {
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--culoare-galben);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 100;
+    }
+    .hamburger-checkbox:checked ~ .nav-list {
+        display: flex;
+    }
+    .hamburger-label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        position: relative;
+        z-index: 200;
+        background: var(--culoare-portocalie);
+        border-radius: 8px;
+        margin-left: auto;
+    }
+    .hamburger-line {
+        width: 28px;
+        height: 4px;
+        background: var(--culoare-alba);
+        margin: 3px 0;
+        border-radius: 2px;
+        transition: 0.3s;
+    }
+    /* Ascunde hamburger pe desktop */
+    @media (min-width: 701px) {
+        .hamburger-label, .hamburger-checkbox {
+            display: none;
+        }
+    }
+}

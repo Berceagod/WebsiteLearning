@@ -1,0 +1,14 @@
+@media (max-width: 1000px) {
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 12px 16px;
+    }
+    .nav-link .nav-text {
+        display: none;
+    }
+    .nav-link .nav-icon {
+        display: inline-block !important;
+        font-size: 1.3rem;
+        vertical-align: middle;
+    }
+}

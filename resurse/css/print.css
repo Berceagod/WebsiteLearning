@@ -1,0 +1,125 @@
+
+@media print {
+
+
+    @page :left {
+
+        margin-left: 2.5cm;
+        margin-right: 0.5cm;
+    }
+
+    @page :right {
+
+        margin-right: 2.5cm;
+        margin-left: 0.5cm;
+    }
+
+
+    * {
+
+        box-shadow: none !important;
+        text-shadow: none !important;
+        transition: none !important;
+    }
+
+    body {
+
+        color: black;
+
+        font-family: 'Times New Roman', Times, serif;
+    }
+
+
+    header .main-nav,
+    img,
+    video,
+    iframe,
+    .container-iframe,
+    #link-top,
+    figure figcaption {
+        display: none !important;
+    }
+
+    /* Stilizarea pentru titlul principal (H1) pe prima pagina */
+    header {
+
+        background: none !important;
+        border: none !important;
+        /* fortez header-ul sa ocupe toata inaltimea primei pagini */
+        height: 90vh;
+        display: flex;
+        justify-content: center; /* centrare orizontala */
+        align-items: center; /* centrare verticala */
+        /* asta forteaza o pagina noua DUPA header, exact cum cerea cerinta */
+        page-break-after: always;
+    }
+
+    #TitluPrinc {
+
+        font-size: 2.5rem;
+
+        text-decoration: underline;
+        color: black !important;
+    }
+
+
+
+    main {
+
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+
+        display: block !important;
+    }
+    main section {
+
+        display: block !important;
+        width: 100% !important;
+    }
+
+
+    a {
+        color: inherit !important; /* 'inherit' inseamna ca preia culoarea de la parinte (body, adica negru) */
+        text-decoration: none !important;
+    }
+
+
+    footer {
+        page-break-before: always;
+        background: none !important;
+        border: none !important;
+    }
+
+
+    footer .banner {
+
+        position: absolute;
+        top: 1cm;
+        left: 10%;
+        width: 80%;
+        border: 2px dotted black;
+        padding: 1em;
+        text-align: center;
+        background-color: white;
+    }
+
+
+    body::after {
+
+        content: "Bercea Mihnea-Cristian";
+        position: fixed;
+        bottom: 2cm;
+        right: 2cm;
+        width: 100px;
+        height: 2cm;
+        border: 4px double black;
+        opacity: 0.65;
+        font-size: 1.2rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        z-index: -1;
+    }
+}

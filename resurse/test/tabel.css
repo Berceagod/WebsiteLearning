@@ -10,33 +10,38 @@
 #member table {
     width: 100%;
 
-
+    /* border-collapse: collapse; este o proprietate super importanta pentru tabele.
+    uneste bordurile celulelor intr-o singura linie. fara ea, am avea spatii intre celule
+    si fiecare celula ar avea propria ei bordura, aratand ca o grila dubla. */
     border-collapse: collapse;
 
     /* asta e bordura de 5px din jurul intregului tabel, cu efect 'inset', cum cerea enuntul. */
     border: 5px inset #4a6fa5;
     font-family: Arial, sans-serif;
 
-
+    /* aici e cheia pentru scroll: setez o latime minima pentru tabel.
+    cand containerul devine mai ingust de 500px, tabelul refuza sa se micsoreze mai mult,
+    si atunci 'overflow-x: auto' de mai sus isi face treaba si activeaza scrollbar-ul. */
     min-width: 500px;
 }
 
 /* stil pentru caption-ul tabelului */
 #member caption {
-
+    /* caption-side: bottom; face exact ce zice: muta textul din caption sub tabel,
+    in loc de pozitia lui default, deasupra. */
     caption-side: bottom;
     text-align: center;
-    margin-top: 10px;
-    font-style: italic;
+    margin-top: 10px; /* putin spatiu sa nu stea lipit de tabel */
+    font-style: italic; /* am facut textul italic sa para o descriere */
     color: #333;
 }
 
 /* stiluri generale pentru celule (th si td) */
 #member th,
 #member td {
-
+    /* asta e bordura de 1px dintre celule, cum era in cerinta */
     border: 1px solid #ddd;
-    padding: 12px;
+    padding: 12px; /* am adaugat padding sa nu stea textul lipit de margini */
     text-align: center;
 }
 
@@ -78,7 +83,8 @@
 
 /* Aici am setat tranzitia pentru efectul de hover pe randuri */
 #member tbody tr {
-
+    /* 'outline' e ca o bordura, dar nu ocupa spatiu si nu strica layout-ul.
+    am setat-o initial sa fie transparenta. */
     outline: 5px solid transparent;
 
     /* 'transition' face ca schimbarea unei proprietati sa fie lina, animata.
@@ -87,7 +93,10 @@
 }
 
 #member tbody tr:hover {
-
+    /* :hover se activeaza cand pun mouse-ul peste un rand. */
+    /* aici schimb culoarea outline-ului de la transparent la o culoare semi-transparenta.
+    'rgba' inseamna Red, Green, Blue, Alpha. Alpha (a) este transparenta, de la 0 (invizibil) la 1 (opac).
+    0.7 este exact cum cerea cerinta. */
     outline-color: rgba(74, 111, 165, 0.7);
     cursor: pointer; /* schimb cursorul sa arat ca randul e interactiv */
 }

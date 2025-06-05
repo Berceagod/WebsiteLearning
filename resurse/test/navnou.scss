@@ -1,0 +1,253 @@
+// Am inceput prin a defini niste variabile SASS pentru a pastra codul curat si usor de modificat.
+// Asta ma ajuta sa schimb o valoare intr-un singur loc si sa se actualizeze peste tot.
+$menu-height: 40px;
+$button-width: 180px;
+$transition-duration: 0.3s;
+$submenu-items: 5; // Numarul de iteme din submeniu, il folosesc mai jos in mixin.
+
+// Pentru culori, am folosit variabile CSS, conform cerintei.
+// Le-am asignat unor variabile SASS ca sa fie mai usor de scris, dar in final in CSS-ul compilat
+// o sa ramana var(--culoare-...), ceea ce permite schimbarea temei cromatice foarte usor din :root.
+$color-primary: var(--culoare-galben);
+$color-secondary: var(--culoare-portocalie);
+$color-text: var(--culoare-detalii);
+$color-light: var(--culoare-alba);
+
+// Aici am creat niste mixin-uri pentru a refolosi blocuri de cod, cum cerea cerinta.
+// E mult mai eficient decat sa scriu acelasi cod de mai multe ori (copy-paste).
+
+// Mixin pentru bara cu gradient de la hover
+@mixin gradient-bar {
+  // Am folosit un pseudo-element ::before pentru a crea bara, fara sa mai adaug un div in plus in HTML.
+  content: '';
+  position: absolute; // Il pozitionez relativ la parintele lui (.nav-link)
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, black, white, black); // Gradientul cu 3 culori
+  opacity: 0; // Initial, bara este invizibila
+  transform: translateY(-10px); // Si putin ridicata, ca sa apara ca si cum coboara
+  transition: opacity $transition-duration ease, transform $transition-duration ease; // Tranzitie lina
+}
+
+// Acest mixin era pentru a adauga un delay la animatia item-elor din submeniu.
+// Folosesc o bucla @for, cum cerea cerinta, pentru a parcurge fiecare item.
+@mixin submenu-animation($items) {
+  // Bucla merge de la 1 la valoarea variabilei $items (care e 5)
+  @for $i from 1 through $items {
+    // Pentru fiecare item (li:nth-child(1), li:nth-child(2), etc.)
+    // #{} este folosit pentru a insera valoarea variabilei SASS $i in selector.
+    li:nth-child(#{$i}) {
+      // ii setez un delay de animatie care creste cu fiecare element.
+      // Primul o sa aiba 0.1s, al doilea 0.2s si tot asa.
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+}
+
+// Aici incepe stilizarea meniului principal.
+// Am folosit nesting-ul din SASS extensiv, pentru a scrie un cod mai structurat si mai usor de citit.
+.main-nav {
+  background: $color-primary;
+  position: sticky; // Il fac sa ramana lipit sus cand dau scroll
+  top: 0;
+  z-index: 100; // Il pun deasupra altor elemente
+  width: 100%;
+  font-family: 'Montserrat', sans-serif;
+
+  // Acesta este checkbox-ul ascuns pe care il folosesc pentru hamburger menu.
+  // E o tehnica numita "checkbox hack" care ma lasa sa controlez starea meniului (deschis/inchis)
+  // fara sa folosesc JavaScript.
+  .hamburger-checkbox {
+    display: none;
+  }
+
+  // Lista de navigare (<ul>)
+  .nav-list {
+    display: flex; // Le pun pe un singur rand, orizontal
+    list-style: none; // Scot bulinele default de la lista
+    margin: 0;
+    padding: 0;
+
+    // Fiecare element din lista (<li>)
+    .nav-item {
+      position: relative; // Necesar pentru pozitionarea absoluta a submeniului si a barei de gradient
+      height: $menu-height;
+
+      // Item-urile care au submeniu
+      &.has-submenu {
+        // '>` selecteaza doar copiii directi
+        > .nav-link {
+          position: relative; // Parinte pentru bara de gradient
+
+          // Aici aplic mixin-ul pentru bara de gradient
+          &::before {
+            @include gradient-bar;
+          }
+        }
+
+        // Cand fac hover pe un item cu submeniu...
+        &:hover {
+          // ... fac bara de gradient vizibila si o aduc la pozitia finala
+          > .nav-link::before {
+            opacity: 1;
+            transform: translateY(0);
+          }
+
+          // ... si afisez submeniul cu animatia de scalare
+          .submenu {
+            display: block; // Il fac vizibil
+            // Animatia de scalare de la 0 la 1 si il fac opac
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  // Link-urile din meniu (<a>)
+  .nav-link {
+    display: flex;
+    align-items: center; // Centrez textul vertical
+    padding: 0 24px;
+    height: 100%;
+    color: $color-text;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background $transition-duration, color $transition-duration;
+
+    &:hover {
+      // La hover, schimb culoarea de fundal
+      background: $color-secondary;
+      color: $color-light;
+    }
+
+    // Icon-ul de casuta, care initial e ascuns
+    .nav-icon {
+      display: none;
+    }
+  }
+
+  // Submeniul
+  .submenu {
+    display: none; // Initial e ascuns
+    position: absolute; // Pozitionat relativ la .nav-item
+    top: 100%; // Imediat sub butonul parinte
+    left: 50%;
+    // Il centrez orizontal si il scalez la 0, invizibil. Aceasta e starea initiala a animatiei.
+    transform: translateX(-50%) scale(0);
+    transform-origin: top center; // Setat ca animatia de scalare sa porneasca din centru-sus
+    min-width: $button-width;
+    background: $color-primary;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    opacity: 0; // Initial e transparent
+    transition: transform $transition-duration, opacity $transition-duration;
+    z-index: 10;
+
+    .submenu-item {
+      // Aici am aplicat mixin-ul pentru animatie, desi nu am definit un @keyframes.
+      // Adauga doar un delay.
+      @include submenu-animation($submenu-items);
+
+      .submenu-link {
+        display: block;
+        padding: 12px 20px;
+        color: $color-text;
+        text-decoration: none;
+        transition: background $transition-duration, color $transition-duration;
+
+        &:hover {
+          // La hover pe un item din submeniu, ii schimb fundalul, cum cerea cerinta.
+          background: $color-secondary;
+          color: $color-light;
+        }
+      }
+    }
+  }
+}
+
+// Aici incepe partea de responsive.
+// Stiluri pentru ecran mediu.
+@media (max-width: 1000px) {
+  .main-nav {
+    .nav-link {
+      font-size: 0.9rem;
+      padding: 0 16px;
+
+      // Pentru pagina principala, ascund textul...
+      .nav-text {
+        display: none;
+      }
+
+      // ... si afisez icon-ul de casuta, cum cerea cerinta.
+      .nav-icon {
+        display: inline-block;
+        font-size: 1.3rem;
+      }
+    }
+  }
+}
+
+// Stiluri pentru ecran mic (hamburger menu)
+@media (max-width: 700px) {
+  .main-nav {
+    // Lista de navigare este initial ascunsa
+    .nav-list {
+      display: none;
+      flex-direction: column; // O fac verticala
+      position: absolute; // O scot din fluxul normal
+      top: 100%; // O pozitionez sub header
+      left: 0;
+      width: 100%;
+      background: $color-primary;
+
+      .submenu {
+        position: static; // Submeniul nu mai e absolut, ci sta in fluxul listei
+        transform: none; // Resetez transformarea
+        width: 100%;
+        box-shadow: none; // Scot umbra
+        // Aici e animatia cu clip-path ceruta. Initial, submeniul este "taiat" complet,
+        // intr-un cerc cu raza 0 in coltul stanga-sus.
+        clip-path: circle(0% at 0 0);
+        transition: clip-path $transition-duration ease-in-out;
+      }
+
+      // La hover, expandez cercul pana acopera tot submeniul, creand efectul de revelare.
+      .has-submenu:hover .submenu {
+        clip-path: circle(150% at 0 0); // 150% e o valoare sigura sa acopere tot
+      }
+    }
+
+    // Aici e magia "checkbox hack": cand checkbox-ul e bifat (adica am dat click pe label)...
+    // ... folosesc ~ (general sibling combinator) pentru a selecta lista de navigare...
+    // ... si o fac vizibila, setand display: flex.
+    .hamburger-checkbox:checked ~ .nav-list {
+      display: flex;
+    }
+
+    // Label-ul pentru checkbox, care este butonul vizibil de hamburger.
+    .hamburger-label {
+      display: flex; // Il fac vizibil doar pe ecran mic
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      margin-left: auto; // Il imping in dreapta
+      cursor: pointer;
+
+      // Fiecare linie din hamburger.
+      .hamburger-line {
+        width: 28px;
+        height: 4px;
+        background: $color-light;
+        margin: 3px 0;
+        border-radius: 2px;
+        transition: $transition-duration;
+      }
+    }
+  }
+}

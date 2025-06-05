@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&display=swap');
+/* Schema cromatica pe care am ales-o eu pentru site */
 
 :root {
     --padding-standard: 8px;
@@ -13,8 +14,10 @@ html {
     font-size : 18px;
 }
 header {
-    display: flex;
-    justify-content: space-between;
+    display: flex; /* Am folosit display:flex pentru a centra elementele si a le aranja unul langa altul. */
+
+    justify-content: space-between; /* 'justify-content' aliniaza elementele pe orizontala. 'space-between' le impinge la capete,
+    unul in stanga si unul in dreapta, cu spatiu intre ele. */
     align-items: center;
     background-color: var(--culoare-galben);
     padding: 20px;
@@ -37,15 +40,19 @@ main {
     padding-right: var(--spatiere-pagina);
 }
 * {
+    /* selectorul '*' se aplica tuturor elementelor de pe pagina.*/
     margin: 0;
     padding: 0;
+    /* 'box-sizing: border-box' ii spune browser-ului sa includa
+    padding-ul si border-ul IN latimea si inaltimea totala a elementului.
+    fara asta, un div cu width: 100px si padding: 10px ar avea de fapt 120px in total, stricand layout-ul. */
     box-sizing: border-box;
 }
 #noutati iframe{
     display: block;
     width: 100%;
     max-width: 100%;
-    height: auto;
+    height: auto;  /* inaltimea se calculeaza automat pentru a pastra proportiile. */
     aspect-ratio: 16 / 9;
     border: 3px solid var(--culoare-portocalie);
     box-sizing: border-box;
@@ -76,6 +83,8 @@ footer {
 
 
 .taburi-iframe>a{
+    /* 'display: inline-block' permite elementului sa stea in linie cu altele,
+    dar ii pot seta si latime si inaltime, ca unui bloc. */
     display: inline-block;
     padding: 10px 15px;
     font-size : 10px;
@@ -86,21 +95,25 @@ footer {
     border-top: none;
     text-align: center;
     text-decoration: none;
+    /* 'text-decoration: none' scoate sublinierea default de la link-uri (tag-ul <a>). */
     font-family: 'Montserrat', sans-serif;
     color: #333;
     font-weight: bold;
     margin: 0 3px;
+    /* margin adauga spatiu in exteriorul elementului. */
+    /* am rotunjit colturile de jos pentru a arata ca niste tab-uri. */
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    overflow-wrap: break-word;
+    overflow-wrap: break-word; /* 'overflow-wrap' forteaza textul sa treaca pe randul urmator daca nu mai are loc,
+    prevenind iesirea din container. */
 }
 
 .taburi-iframe{
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
+    display: flex;  /* am folosit din nou flexbox pentru a alinia tab-urile unul langa altul. */
+    flex-direction: row;/* le pune pe un rand. */
+    justify-content: right;/* le aliniaza in partea dreapta. */
     margin-top: -4px;
-    position: relative;
+    position: relative; /* necesar pentru a controla pozitia mai fin. */
     padding-bottom: 5px;
 }
 .container-iframe{
@@ -109,6 +122,7 @@ footer {
     min-width: 200px*/
     display: flex;
     flex-direction: column-reverse;
+    /* column-reverse' inverseaza ordinea elementelor pe verticala. */
 }
 .container-iframe>iframe{
     width:100%;
@@ -118,7 +132,7 @@ footer {
 
 
 #link-top {
-    position: fixed;
+    position: fixed;   /* 'position: fixed' il face sa ramana pe loc, in coltul stanga-jos, chiar si la scroll. */
     bottom: 0.3em;
     opacity: 0.5;
     left: 0.3em;
@@ -127,13 +141,14 @@ footer {
     box-sizing: border-box;
     background: var(--culoare-portocalie);
     border: 5px black solid;
-    transform: rotate(45deg);
+    transform: rotate(45deg); /* 'transform: rotate(45deg)' roteste patratul ca sa arate ca un romb. */
     border-radius: 0;
     border-top-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease;/* 'transition' face ca schimbarea unei proprietati (aici, opacitatea) sa fie lina,
+    nu instantanee. dureaza 0.3 secunde. */
     text-decoration: none;
 }
 
@@ -145,6 +160,7 @@ footer {
 #link-top .shape-container {
     width: 100%;
     height: 100%;
+    /* rotesc containerul inapoi, ca sa pot pune sageata dreapta in interiorul rombului. */
     transform: rotate(-45deg);
     display: flex;
     justify-content: center;
@@ -156,6 +172,9 @@ footer {
 #link-top .pizza-slice {
     width: 95%;
     height: 95%;
+    /* 'conic-gradient' creeaza un gradient in forma de con.
+    am 'colorat' doar un sector dintr-un cerc (intre 45 si 135 de grade)
+   si am lasat restul transparent, creand forma unei felii de pizza */
     background: conic-gradient(
             from 90deg,
             transparent 0deg 45deg,
@@ -163,8 +182,8 @@ footer {
             transparent 135deg 360deg
     );
 
-    border-radius: 50%;
-    transform: translateY(-25%);
+    border-radius: 50%; /* il face cerc, din care e 'taiata' felia. */
+    transform: translateY(-25%); /* il mut putin mai sus ca sa arate bine. */
 }
 
 

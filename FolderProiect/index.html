@@ -7,6 +7,7 @@
         <meta name="keywords" content="lego, lego romania, magazin lego, jucarii, cadouri, cadouri copii, set lego, cadouri adulti, cumpara lego"><!--cuvintele cheie ale paginii; majoritatea motoarelor de căutare ignoră keywords -->
         <meta name="description" content="LegoCorner - Magazin online dedicat pasionaților de LEGO! Găsește seturi LEGO originale, piese individuale și accesorii pentru construcțiile tale. Comandă acum și dă viață imaginației tale!" /><!-- descrierea paginii, adesea apare sub link când sunt afișate rezultatele căutării -->
         <meta name="author" content="Bercea Mihnea Cristian">  <!-- autorul/autoarea paginii-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
         <link rel="icon" type="image/png" href="../resurse/imagini/favicon/favicon-96x96.png" sizes="96x96" />
         <link rel="icon" type="image/svg+xml" href="../resurse/imagini/favicon/favicon.svg" />
@@ -16,11 +17,16 @@
 
 
         <link rel="stylesheet" type="text/css" href="../resurse/css/general.css" />
-        <link rel="stylesheet" type="text/css" href="../resurse/css/nav.css" />
         <link rel="stylesheet" type="text/css" href="../resurse/css/layout.css" />
         <link rel="stylesheet" type="text/css" href="../resurse/css/medium.css" />
         <link rel="stylesheet" type="text/css" href="../resurse/css/small.css" />
         <link rel="stylesheet" type="text/css" href="../resurse/css/tabel.css" />
+        <link rel="stylesheet" type="text/css" href="../resurse/css/meniu.css" />
+<!--        <link rel="stylesheet" type="text/css" href="../resurse/css/nav.css" />-->
+<!--        <link rel="stylesheet" type="text/css" href="../resurse/css/nav1000.css" />-->
+<!--        <link rel="stylesheet" type="text/css" href="../resurse/css/nav700.css" />-->
+        <link rel="stylesheet" type="text/css" href="../resurse/css/navscss.css" />
+        <link rel="stylesheet" type="text/css" href="../resurse/css/print.css" />
         <!-- css curs 2 -->
         <style>
             /*p{*/
@@ -38,26 +44,48 @@
     <body>
         <header>
 
-
-
             <h1 id="TitluPrinc">LegoCorner</h1>
 
-<!--            sist de navigare subpunctul 6-->
-                <nav aria-label="Meniu principal">
-                    <ul class="CategoriiMari">
-                        <li><a href="#sectiune1"> Categorii </a>
-                            <ul class = "SubCategorii1">
-                                <li><a href="#subsectiune1"> Seturi LEGO</a></li>
-                                <li><a href="#subsectiune2"> Minifigurine</a></li>
-                                <li><a href="#subsectiune3"> Noutăți</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#sectiune2"> Promoții</a></li>
-                    </ul>
-                </nav>
 
+            <nav aria-label="Meniu principal" class="main-nav">
+                <input type="checkbox" id="hamburger" class="hamburger-checkbox" />
+                <label for="hamburger" class="hamburger-label" aria-label="Deschide meniul">
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                    <span class="hamburger-line"></span>
+                </label>
+
+                <ul class="nav-list">
+                    <li class="nav-item has-submenu" aria-haspopup="true" aria-expanded="false">
+                        <a href="#" class="nav-link">Pagini Site</a>
+                        <ul class="submenu">
+                            <li class="submenu-item"><a href="galerie-statica.html" class="submenu-link">Galerie Statică</a></li>
+                            <li class="submenu-item"><a href="galerie-dinamica.html" class="submenu-link">Galerie Dinamică</a></li>
+                            <li class="submenu-item"><a href="despre-noi.html" class="submenu-link">Despre Noi</a></li>
+                            <li class="submenu-item"><a href="contact.html" class="submenu-link">Contact</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item has-submenu" aria-haspopup="true" aria-expanded="false">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-home nav-icon"></i>
+                            <span class="nav-text">Acasă</span>
+                        </a>
+                        <ul class="submenu">
+                            <li class="submenu-item"><a href="#categorii" class="submenu-link">Categorii</a></li>
+                            <li class="submenu-item"><a href="#promotii" class="submenu-link">Promoții</a></li>
+                            <li class="submenu-item"><a href="#noutati" class="submenu-link">Noutăți</a></li>
+                            <li class="submenu-item"><a href="#FAQ" class="submenu-link">Întrebări frecvente</a></li>
+                            <li class="submenu-item"><a href="#member" class="submenu-link">Devino membru</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
 
         </header>
+
+
+
         <main>
 <!--            tagul q si cite , subpunctul 10-->
             <section id="quote">
@@ -287,6 +315,8 @@
                     <div class="pizza-slice"></div>
                 </div>
             </a>
+
+            <p class="banner">Acesta este un proiect școlar!</p>
         </footer>
 
 

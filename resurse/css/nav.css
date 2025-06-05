@@ -1,59 +1,71 @@
-nav{
-    background-color:var(--culoare-galben);
-    --inaltime-meniu:40px;
-    --latime-buton:100px;
-    height:var(--inaltime-meniu);
+nav.main-nav {
+    background: var(--culoare-galben);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
 }
-
-ul.CategoriiMari ul {
+.hamburger-checkbox {
     display: none;
-    padding:0;
+}
+.nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-ul.CategoriiMari {
-    display:flex;
-    list-style-type : none;
-    padding:0;
+.nav-item {
+    position: relative;
 }
 
-ul.CategoriiMari li{
-    width:var(--latime-buton);
-    height:var(--inaltime-meniu);
-    border: 1px solid var(--culoare-maro);
-    box-sizing : border-box;
-    text-align: center;
-    font-weight:bold;
-    line-height:var(--inaltime-meniu);
-
-    transition: all 0.5s linear;
-}
-
-ul.CategoriiMari li:hover{
-    background-color:var(--culoare-maro);
-}
-
-ul.CategoriiMari li:hover ul{
-    display:block;
-
-}
-
-
-ul.CategoriiMari li:hover a,ul.meniu li:hover div{
-    color:white;
-    transition: all 0.5s linear;
-}
-
-
-ul.CategoriiMari a,ul.meniu div{
-    color: black;
+.nav-link {
+    display: block;
+    padding: 16px 24px;
+    color: var(--culoare-detalii);
     text-decoration: none;
-    display:block;
-    height:100%;
-    cursor:pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background 0.3s, color 0.3s;
+    background: transparent;
+    border: none;
 }
 
+.nav-link:hover,
+.nav-link:focus {
+    background: var(--culoare-portocalie);
+    color: var(--culoare-alba);
+}
 
+.has-submenu .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background: var(--culoare-galben);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 10;
+    border-radius: 0 0 8px 8px;
+}
 
-ul.CategoriiMari li div.imag-icon{
-    display:none;
+.has-submenu:hover .submenu,
+.has-submenu:focus-within .submenu {
+    display: block;
+}
+
+.submenu-item .submenu-link {
+    display: block;
+    padding: 12px 20px;
+    color: var(--culoare-detalii);
+    text-decoration: none;
+    background: transparent;
+    transition: background 0.3s, color 0.3s;
+}
+
+.submenu-item .submenu-link:hover,
+.submenu-item .submenu-link:focus {
+    background: var(--culoare-portocalie);
+    color: var(--culoare-alba);
 }
