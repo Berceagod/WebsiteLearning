@@ -43,7 +43,7 @@
 /* stiluri speciale pentru antet (capul de tabel) */
 #member thead th {
     background-color: #f8f9fa; /* un fundal diferit ca sa iasa in evidenta */
-    font-weight: bold; /* text ingrosat */
+    font-weight: bold; /* text ingrosat a */
     color: #333;
 }
 
