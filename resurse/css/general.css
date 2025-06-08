@@ -62,6 +62,8 @@ main {
 #TitluPrinc {
     color: var(--culoare-detalii);
     cursor: pointer;
+    font-size: 2rem;
+    font-family: 'Lilita One', cursive;
 }
 
 
@@ -170,20 +172,20 @@ footer {
 
 
 #link-top .pizza-slice {
-    width: 95%;
-    height: 95%;
+    width: 125%;
+    height: 125%;
     /* 'conic-gradient' creeaza un gradient in forma de con.
     am 'colorat' doar un sector dintr-un cerc (intre 45 si 135 de grade)
    si am lasat restul transparent, creand forma unei felii de pizza */
     background: conic-gradient(
             from 90deg,
-            transparent 0deg 45deg,
-            var(--culoare-rosie) 45deg 135deg,
-            transparent 135deg 360deg
+            transparent 0deg 60deg,
+            var(--culoare-rosie) 60deg 120deg,
+            transparent 120deg 360deg
     );
 
     border-radius: 50%; /* il face cerc, din care e 'taiata' felia. */
-    transform: translateY(-25%); /* il mut putin mai sus ca sa arate bine. */
+    transform: translateY(-35%); /* il mut putin mai sus ca sa arate bine. */
 }
 
 
