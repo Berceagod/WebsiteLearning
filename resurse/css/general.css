@@ -8,7 +8,8 @@
     --culoare-detalii : #FF5115;
     --culoare-alba : white;
     --culoare-portocalie: #DB8F2A;
-    --culoare-rosie: #DB372A
+    --culoare-rosie: #DB372A;
+    --culoare-link-vizitat: var(--culoare-portocalie);
 }
 html {
     font-size : 18px;
@@ -186,6 +187,61 @@ footer {
 
     border-radius: 50%; /* il face cerc, din care e 'taiata' felia. */
     transform: translateY(-35%); /* il mut putin mai sus ca sa arate bine. */
+}
+
+/* === BONUS: STILIZARE LINKURI === */
+
+a:visited {
+    color: var(--culoare-link-vizitat);
+}
+
+a[href^="http"] {
+    position: relative;
+    padding-left: 1.5em;
+}
+a[href^="http"]::before {
+    content: "⮳";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 150%;
+    color: var(--culoare-detalii);
+    transition: color 0.3s;
+    pointer-events: none;
+}
+a[href^="http"]:hover::before,
+a[href^="http"]:focus::before {
+    color: var(--culoare-rosie);
+}
+
+main a {
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    transition: border 0.2s;
+}
+main a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, var(--culoare-detalii) 0%, var(--culoare-detalii) 40%, transparent 80%, transparent 100%);
+    opacity: 0.5;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+    z-index: -1;
+}
+main a:hover::after {
+    width: 200%;
+    height: 200%;
+}
+main a:active {
+    border: 2.5px solid black;
+    border-radius: 6px;
+    transition: border 0s;
 }
 
 
