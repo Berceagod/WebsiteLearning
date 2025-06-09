@@ -1,4 +1,7 @@
 
+
+
+
 @media print {
 
 
@@ -16,10 +19,11 @@
 
 
     * {
-
+        color: black !important;
+        background: transparent !important;
+        border-color: black !important;
         box-shadow: none !important;
         text-shadow: none !important;
-        transition: none !important;
     }
 
     body {
