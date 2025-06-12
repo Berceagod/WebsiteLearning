@@ -1,0 +1,110 @@
+{
+    "cale_galerie": "resurse/imagini/galerie/",
+    "imagini": [
+      {
+        "cale_fisier": "img1.jpg",
+        "titlu": "Lego Masina",
+        "alt": "Set Lego Masina Curse",
+        "text_descriere": "O masina lego de curse.",
+        "luni": ["ianuarie", "februarie", "decembrie"]
+      },
+      {
+        "cale_fisier": "img2.jpg",
+        "titlu": "Copac exotic",
+        "alt": "Set lego cu copac exotic",
+        "text_descriere": "Un copac exotic cu frunze colorate.",
+        "luni": ["martie", "aprilie", "mai"]
+      },
+      {
+        "cale_fisier": "img3.jpg",
+        "titlu": "Lego Angel",
+        "alt": "Set lego cu personajul Angel",
+        "text_descriere": "Personajul Angel din Lilo si Stitch.",
+        "luni": ["iunie", "iulie", "august"]
+      },
+      {
+        "cale_fisier": "img4.jpg",
+        "titlu": "Lampa",
+        "alt": "Set Lego cu o lampa",
+        "text_descriere": "Lampa ce simbolizeaza logoul Pixar.",
+        "luni": ["septembrie", "octombrie", "noiembrie"]
+      },
+      {
+        "cale_fisier": "img5.jpg",
+        "titlu": "Diorama Sherlock Holmes",
+        "alt": "Set lego cu diorama Sherlock Holmes",
+        "text_descriere": "Diorama cu Sherlock Holmes pentru biblioteca.",
+        "luni": ["ianuarie", "martie", "noiembrie"]
+      },
+      {
+        "cale_fisier": "img6.jpg",
+        "titlu": "Cățeluș din 101 dalmațieni",
+        "alt": "Cățeluș din 101 dalmațieni",
+        "text_descriere": "Set LEGO Cățeluș din 101 dalmațieni",
+        "luni": ["ianuarie", "aprilie", "iulie"]
+      },
+      {
+        "cale_fisier": "img7.jpg",
+        "titlu": "Keith Haring – Figurine care dansează",
+        "alt": "Keith Haring – Figurine care dansează",
+        "text_descriere": "Set LEGO Keith Haring – Figurine care dansează",
+        "luni": ["februarie", "mai", "august"]
+      },
+      {
+        "cale_fisier": "img8.jpg",
+        "titlu": "Stăpânul inelelor: Dioramă pentru bibliotecă cu un Balrog™",
+        "alt": "Stăpânul inelelor: Dioramă cu Balrog",
+        "text_descriere": "Set LEGO Stăpânul inelelor: Dioramă pentru bibliotecă cu un Balrog™",
+        "luni": ["martie", "iunie", "septembrie"]
+      },
+      {
+        "cale_fisier": "img9.jpg",
+        "titlu": "Aeronavă de transport de navete",
+        "alt": "Aeronavă de transport de navete",
+        "text_descriere": "Set LEGO Aeronavă de transport de navete",
+        "luni": ["aprilie", "iulie", "octombrie"]
+      },
+      {
+        "cale_fisier": "img10.jpg",
+        "titlu": "Trenul expres al exploratorilor spre Polul Arctic",
+        "alt": "Trenul expres al exploratorilor spre Polul Arctic",
+        "text_descriere": "Set LEGO Trenul expres al exploratorilor spre Polul Arctic",
+        "luni": ["mai", "august", "noiembrie"]
+      },
+      {
+        "cale_fisier": "img11.jpg",
+        "titlu": "Cartea monștrilor Colți de monstru",
+        "alt": "Cartea monștrilor Colți de monstru",
+        "text_descriere": "Set LEGO Cartea monștrilor Colți de monstru",
+        "luni": ["iunie", "septembrie", "decembrie"]
+      },
+      {
+        "cale_fisier": "img12.jpg",
+        "titlu": "Klombo",
+        "alt": "Klombo",
+        "text_descriere": "Set LEGO Klombo",
+        "luni": ["iulie", "octombrie", "ianuarie"]
+      },
+      {
+        "cale_fisier": "img13.jpg",
+        "titlu": "Casa familiei lui Blue",
+        "alt": "Casa familiei lui Blue",
+        "text_descriere": "Set LEGO Casa familiei lui Blue",
+        "luni": ["august", "noiembrie", "februarie"]
+      },
+      {
+        "cale_fisier": "img14.jpg",
+        "titlu": "Bust Iron Man MK4",
+        "alt": "Bust Iron Man MK4",
+        "text_descriere": "Set LEGO Bust Iron Man MK4",
+        "luni": ["septembrie", "decembrie", "martie"]
+      },
+      {
+        "cale_fisier": "img15.jpg",
+        "titlu": "Restaurantul Durrr Burger",
+        "alt": "Restaurantul Durrr Burger",
+        "text_descriere": "Set LEGO Restaurantul Durrr Burger",
+        "luni": ["octombrie", "ianuarie", "aprilie"]
+      }
+    ]
+  }

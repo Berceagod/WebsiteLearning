@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="/resurse/css/galerie.css">
+<div class="galerie-grid">
+    <% if (galerie && galerie.imagini && galerie.imagini.length > 0) { %>
+        <% galerie.imagini.forEach(function(img, idx) { %>
+            <figure class="galerie-item">
+                <picture>
+                    <img src="/<%= galerie.cale_galerie %><%= img.cale_fisier %>" 
+                         alt="<%= img.alt || img.titlu %>" 
+                         title="<%= img.text_descriere %>">
+                </picture>
+                <figcaption>
+                    <span class="greek-index"></span>
+                    <%= img.titlu %>
+                </figcaption>
+            </figure>
+        <% }) %>
+    <% } else { %>
+        <p>Nu există imagini pentru luna selectată.</p>
+    <% } %>
+</div>

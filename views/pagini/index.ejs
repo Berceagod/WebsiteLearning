@@ -1,0 +1,222 @@
+<!DOCTYPE html> <!--este important pentru ca specifica browserului ca documentul este scris in HTML5 -->
+<html lang="ro">
+    <head>
+        <%- include("../fragmente/head") %>
+        <title>Pagina principală</title>
+    </head>
+    <body>
+        <%- include("../fragmente/header") %>
+
+
+        <main>
+<!--            tagul q si cite , subpunctul 10-->
+            <section id="quote">
+                <h2><i lang="en"><q>-Why should we only have childhood fun in childhood? Why should we only have childhood fun in childhood?</q></i></h2>
+                <p><cite>-C.S. Lewis</cite></p>
+            </section>
+
+<!--Sectiune imbricata , subsectiunile in sectiune1 ,  subpunctul 5 -->
+
+            <section id="grid-pagina">
+            <section id="TemeLego">
+                <p>Exploreaza temele <b>LEGO</b>:</p>
+                <!--                        bonus harti de imagine-->
+                <img src="/resurse/imagini/pozeMaps/LegoThemes.png" usemap="#image-map" alt = "Lego Themes">
+
+                <map name="image-map">
+                    <area target="#" alt="LegoTecnhic" title="LegoTecnhic" href="" coords="3,0,186,186" shape="rect">
+                    <area target="#" alt="LegoStarWars" title="LegoStarWars" href="" coords="197,0,392,187" shape="rect">
+                    <area target="#" alt="LegoTechnic" title="LegoTechnic" href="" coords="400,0,582,184" shape="rect">
+                </map>
+            </section>
+
+
+            <section id="categorii">
+                <h2>Categorii</h2>
+                <p>Aici se regasesc produsele noastre <b>LEGO</b></p>
+                    <section id="seturi">
+                        <h3> Seturi LEGO</h3>
+                        <p><b>Seturi LEGO</b> originale, perfecte pentru <b>cadouri</b> destinate atât copiilor, cât și adulților! Cele mai bune  <b> cadouri adulti </b> ,  <b> cadouri copii</b></p>
+<!--                        subpunctul 8 , imagine-->
+                        <figure>
+                            <picture>
+                                <source srcset="/resurse/imagini/pozePrincipale/LegoStarwarsMare.png" media="(min-width: 1024px)">
+                                <source srcset="/resurse/imagini/pozePrincipale/LegoStarwarsMediu.png" media="(min-width: 600px)">
+                                <img src="/resurse/imagini/pozePrincipale/LegoStarwarsMic.png" alt="LEGO Star-Wars" width="245" height="200">
+                            </picture>
+                            <figcaption><b>LEGO Star-Wars</b></figcaption>
+                        </figure>
+                    </section>
+                <section id="minifigurine">
+                    <h3>Minifigurine</h3>
+                    <p>Descoperă colecția noastră de <b>minifigurine LEGO</b>, de la personaje clasice la eroi și personaje exclusive! Completează-ți seturile preferate sau creează propriile aventuri cu aceste <b>figurine LEGO</b> detaliate și pline de personalitate.</p>
+                </section>
+            </section>
+
+            <section id="promotii">
+                <h2>Promoții</h2>
+                <p>Profitați de cele mai bune <b>oferte la seturi LEGO</b>! Reduceri exclusive, pachete speciale și <b>promoții</b> limitate pentru toți pasionații de construcții <b>LEGO Romania </b>.</p>
+                <p>
+                    Ofertă nouă la noile seturi LEGO Botanicals,
+                    <!--                    Bonus mathml-->
+                    <math>
+                        <mrow>
+                            <mn>2</mn>
+                            <mo>+</mo>
+                            <mn>1</mn>
+                        </mrow>
+                    </math>
+                    gratis!
+                </p>
+            </section>
+
+                <section id="calendar">
+                    <h3>Aici va fi calendarul</h3>
+                    <p>Calendarul <b>LEGO</b>:</p>
+                </section>
+
+            <section id="noutati">
+                <h3>Noutăți</h3>
+                <!--                    linkuri care se deschid in iframe , subpunctul 11 c-->
+                <p>Fii la curent cu <b>cele mai recente seturi și lansări LEGO</b>! Descoperă cele mai noi modele, ediții speciale și colecții exclusive disponibile acum pe <b>LegoCorner</b>.</p>
+                <div class="container-iframe">
+                    <div class="taburi-iframe">
+                        <a href="https://www.youtube.com/embed/4hkfPm9-U0Q" target="ifr-video">Documentar oficial Nigel Mansell</a>
+                        <a href="https://www.youtube.com/embed/T6s_Hlv7P9M" target="ifr-video" >LEGO Ninjago Sezonul 3</a>
+                        <a href="https://www.youtube.com/embed/bNYJOJHdsWc" target="ifr-video" >Seturi noi LEGO Star-wars</a><br/>
+                    </div>
+
+
+                    <iframe name="ifr-video" width="1560" height="1315" src="https://www.youtube.com/embed/4hkfPm9-U0Q"
+                            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </section>
+
+                <section id="anunturi">
+                    <h2>Anunturi</h2>
+                    <details>
+                        <summary>Urmatoarea saptamana</summary>
+                        <p>Luni pe data de 14/04/2025 va avea loc o reducere de 50%</p>
+                    </details>
+                </section>
+
+
+            <section id="FAQ">
+                <h2>Întrebări frecvente</h2>
+                <details>
+                    <summary>Seturile LEGO sunt originale?</summary>
+                    <p>Da, toate seturile LEGO vândute pe site-ul nostru sunt 100% originale și provin direct de la producător.</p>
+                </details>
+
+                <details>
+                    <summary>Oferiți piese de schimb pentru seturile LEGO?</summary>
+                    <p>Nu vindem piese individuale, dar vă putem ajuta să comandați direct de la LEGO prin serviciul lor de înlocuire a pieselor.</p>
+                </details>
+
+                <details>
+                    <summary>Cât durează livrarea?</summary>
+                    <p>Livrarea durează între 1 și 3 zile lucrătoare, în funcție de destinație și de metoda de transport aleasă.</p>
+                </details>
+
+                <details>
+                    <summary>Există reduceri pentru seturi LEGO?</summary>
+                    <p>Da, avem promoții și reduceri periodice. Vă recomandăm să vă abonați la newsletter pentru a fi la curent cu ofertele noastre.</p>
+                </details>
+
+                <details>
+                    <summary>Pot cumpăra un set LEGO care nu mai este în producție?</summary>
+                    <p>Unele seturi retrase din producție pot fi disponibile în stoc limitat. Vă recomandăm să verificați frecvent site-ul nostru sau să ne contactați pentru detalii.</p>
+                </details>
+                <details>
+                    <summary>Unde pot găsi mai multe informații despre produsele LEGO?</summary>
+                    <p>Pentru informații oficiale despre seturile LEGO, instrucțiuni de asamblare sau piese de schimb, vizitați site-ul oficial LEGO:
+<!--                        link extern , subpunctul 11 a-->
+                        <a href="https://www.lego.com" target="_blank">www.lego.com</a></p>
+                </details>
+            </section>
+
+                <section id="member">
+                    <h2>Devino membru</h2>
+                    <p>Devino membru lego !</p>
+                    <div class="table-container">
+                    <table>
+                        <caption>Beneficii comparate: Membru vs. Non-membru</caption>
+                        <thead>
+                        <tr>
+                            <th rowspan="2">Beneficii</th>
+                            <th id="mate" colspan="2" scope="colgroup">Membru</th>
+                            <th id="info" colspan="2" scope="colgroup">Non-membru</th>
+                        </tr>
+                        <tr>
+                            <th headers="mate">Fizic</th>
+                            <th headers="mate">Online</th>
+                            <th headers="info">Fizic</th>
+                            <th headers="info">Online</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Acces oferte</th>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>DA</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Minifigurine gratis</th>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>NU</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Pre-comanda</th>
+                            <td>DA</td>
+                            <td>DA</td>
+                            <td>NU</td>
+                            <td>NU</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Zona VIP</th>
+                            <td>DA</td>
+                            <td>NU</td>
+                            <td>NU</td>
+                            <td>NU</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </section>
+
+
+            </section>
+
+            <section id="video-promotie">
+                <h2>Video Promoție LEGO Party</h2>
+                <video 
+                    controls 
+                    poster="/resurse/imagini/pozePrincipale/poster-promotie.jpg" 
+                    preload="metadata"
+                    style="width: 100%; min-width: 250px; max-width: 700px; display: block; margin: 0 auto;">
+                    <source src="/resurse/video/video-promotie.mp4" type="video/mp4">
+                    <source src="/resurse/video/video-promotie.webm" type="video/webm">
+                    <track src="/resurse/video/subtitrare-promotie-ro.vtt" kind="subtitles" srclang="ro" label="Română" default>
+                    <track src="/resurse/video/subtitrare-promotie-en.vtt" kind="subtitles" srclang="en" label="English">
+                    Browserul tău nu suportă video HTML5.
+                </video>
+            </section>
+
+
+            <section id="galerie-grid">
+                <h2>Galerie Statică</h2>
+                <%- include("../fragmente/galerie-fragment", {galerie: galerie}) %>
+            </section>
+        </main>
+        <%- include("../fragmente/footer") %>
+
+
+
+    </body>
+</html>
+
+
