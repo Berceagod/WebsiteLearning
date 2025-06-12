@@ -1,4 +1,5 @@
 const fs = require('fs');
+const sass = require('sass');
 global.obGlobal = {
     obErori: null
 };
@@ -27,7 +28,7 @@ const app = express();
 const port = 8080;
 
 const path = require('path');
-
+app.use('/temp', express.static(path.join(__dirname, 'temp')));
 // Setează EJS ca motor de template
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -138,30 +139,48 @@ function getImaginiGalerieAnimata() {
     const galerieRaw = fs.readFileSync("./galerie.json");
     const galerieJson = JSON.parse(galerieRaw);
 
-    // Filtrăm imaginile cu nume mai scurt de 12 caractere
-    let imaginiEligibile = galerieJson.imagini.filter(img => img.titlu.length < 12);
+    // Amestecăm toate imaginile
+    let imaginiAmestecate = galerieJson.imagini.sort(() => Math.random() - 0.5);
 
-    // Amestecăm array-ul pentru a obține o selecție aleatorie
-    imaginiEligibile = imaginiEligibile.sort(() => Math.random() - 0.5);
+    // Alegem aleatoriu între 4, 9 sau 16 imagini
+    const optiuniNumarImagini = [4, 9, 16];
+    const numarImaginiAles = optiuniNumarImagini[Math.floor(Math.random() * optiuniNumarImagini.length)];
+
+    // Limităm numărul de imagini la numărul ales sau la numărul total disponibil, oricare este mai mic
+    const numarImagini = Math.min(numarImaginiAles, imaginiAmestecate.length);
+
+    imaginiAmestecate = imaginiAmestecate.slice(0, numarImagini);
 
     return {
         cale_galerie: galerieJson.cale_galerie,
-        imagini: imaginiEligibile
+        imagini: imaginiAmestecate,
+        numarImagini: numarImagini // Adăugăm această informație pentru a o folosi în template
     };
 }
-
 app.get("/galerieanimata", (req, res) => {
-    res.setHeader('Cache-Control', 'no-store, max-age=0');
-    res.setHeader('Pragma', 'no-cache');
+    const galerie = getImaginiGalerieAnimata(); // Folosim funcția pentru galeria animată
+    const numarImagini = galerie.imagini.length; // Calculăm numărul de imagini
 
-    const galerie = getImaginiGalerieAnimata();
-    const numarImagini = [4, 9, 16][Math.floor(Math.random() * 3)];
-    galerie.imagini = galerie.imagini.slice(0, numarImagini);
+    const sassFile = path.join(__dirname, 'resurse', 'scss', 'galerieanimata.scss');
+    try {
+        const result = sass.renderSync({
+            file: sassFile,
+            outputStyle: 'compressed'
+        });
+        const cssOutput = path.join(__dirname, 'temp', 'galerieanimata.css');
+        fs.writeFileSync(cssOutput, result.css);
+        console.log('SCSS compilat cu succes');
+    } catch (error) {
+        console.error('Eroare la compilarea SCSS:', error);
+    }
+
+    const cssFile = '/temp/galerieanimata.css';
 
     res.render('pagini/galerieanimata', {
         galerie: galerie,
         numarImagini: numarImagini,
-        timestamp: Date.now() // Adăugăm un timestamp
+        timestamp: Date.now(),
+        cssFile: cssFile
     });
 });
 //---------------------------

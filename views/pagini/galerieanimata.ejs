@@ -4,17 +4,27 @@
 <head>
     <%- include("../fragmente/head") %>
     <title>Galerie Animată</title>
-    <link rel="stylesheet" href="/resurse/css/galerieanimata.css">
+    <link rel="stylesheet" href="<%= cssFile %>">
+    <style>
+        body::after {
+            content: "CSS inclus din EJS";
+            display: block;
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
 <%- include("../fragmente/header") %>
 
 <main>
     <h1>Galerie Animată</h1>
-    <div class="galerie-animata" style="grid-template-columns: repeat(<%= Math.sqrt(numarImagini) %>, 1fr);">
+    <div class="galerie-animata galerie-animata-<%= numarImagini %>">
         <% for(let imagine of galerie.imagini) { %>
             <figure class="galerie-item">
-                <img src="/<%= galerie.cale_galerie %><%= imagine.cale_fisier %>?t=<%= timestamp %>" alt="<%= imagine.titlu %>">
+                <img src="/<%= galerie.cale_galerie %><%= imagine.cale_fisier %>?t=<%= timestamp %>" alt="<%= imagine.alt %>">
                 <figcaption><%= imagine.titlu %></figcaption>
             </figure>
         <% } %>

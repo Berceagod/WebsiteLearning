@@ -38,7 +38,7 @@
       },
       {
         "cale_fisier": "img6.jpg",
-        "titlu": "Cățeluș din 101 dalmațieni",
+        "titlu": "Catelus",
         "alt": "Cățeluș din 101 dalmațieni",
         "text_descriere": "Set LEGO Cățeluș din 101 dalmațieni",
         "luni": ["ianuarie", "aprilie", "iulie"]
@@ -94,15 +94,15 @@
       },
       {
         "cale_fisier": "img14.jpg",
-        "titlu": "Bust Iron Man MK4",
+        "titlu": "Bust Ironman",
         "alt": "Bust Iron Man MK4",
         "text_descriere": "Set LEGO Bust Iron Man MK4",
         "luni": ["septembrie", "decembrie", "martie"]
       },
       {
         "cale_fisier": "img15.jpg",
-        "titlu": "Restaurantul Durrr Burger",
-        "alt": "Restaurantul Durrr Burger",
+        "titlu": "Durrr Burger",
+        "alt": "Durrr Burger",
         "text_descriere": "Set LEGO Restaurantul Durrr Burger",
         "luni": ["octombrie", "ianuarie", "aprilie"]
       },
