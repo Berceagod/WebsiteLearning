@@ -1,17 +1,24 @@
+<!-- În views/pagini/galerieanimata.ejs -->
 <!DOCTYPE html>
 <html lang="ro">
 <head>
     <%- include("../fragmente/head") %>
-    <title>Galerie Statică</title>
+    <title>Galerie Animată</title>
+    <link rel="stylesheet" href="/resurse/css/galerieanimata.css">
 </head>
 <body>
 <%- include("../fragmente/header") %>
 
 <main>
-    <main>
-        <h2>Galerie Statică</h2>
-        <%- include("../fragmente/galerie-fragment", {galerie: galerie}) %>
-    </main>
+    <h1>Galerie Animată</h1>
+    <div class="galerie-animata" style="grid-template-columns: repeat(<%= Math.sqrt(numarImagini) %>, 1fr);">
+        <% for(let imagine of galerie.imagini) { %>
+            <figure class="galerie-item">
+                <img src="/<%= galerie.cale_galerie %><%= imagine.cale_fisier %>" alt="<%= imagine.titlu %>">
+                <figcaption><%= imagine.titlu %></figcaption>
+            </figure>
+        <% } %>
+    </div>
 </main>
 
 <%- include("../fragmente/footer") %>

@@ -133,11 +133,31 @@ app.get("/galerie", (req, res) => {
 });
 // ---------------------------------------------------------------------
 //galerie animata
+// În index.js, adăugăm o nouă funcție pentru galeria animată
+function getImaginiGalerieAnimata() {
+    const galerieRaw = fs.readFileSync("./galerie.json");
+    const galerieJson = JSON.parse(galerieRaw);
+
+    // Filtrăm imaginile cu nume mai scurt de 12 caractere
+    let imaginiEligibile = galerieJson.imagini.filter(img => img.titlu.length < 12);
+
+    // Amestecăm array-ul pentru a obține o selecție aleatorie
+    imaginiEligibile = imaginiEligibile.sort(() => Math.random() - 0.5);
+
+    return {
+        cale_galerie: galerieJson.cale_galerie,
+        imagini: imaginiEligibile
+    };
+}
+
 app.get("/galerieanimata", (req, res) => {
-    const luna = req.query.luna; // preia din URL, ex: /galerie?luna=aprilie
-    const galerie = getImaginiGalerie(luna);
+    const galerie = getImaginiGalerieAnimata();
+    const numarImagini = [4, 9, 16][Math.floor(Math.random() * 3)];
+    galerie.imagini = galerie.imagini.slice(0, numarImagini);
+
     res.render('pagini/galerieanimata', {
-        galerie: galerie
+        galerie: galerie,
+        numarImagini: numarImagini
     });
 });
 
