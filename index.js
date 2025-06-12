@@ -37,7 +37,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
 app.get(/^\/resurse(\/.*)?$/, (req, res, next) => {
     const calea = path.join(__dirname, decodeURIComponent(req.path));
     try {
@@ -50,6 +49,7 @@ app.get(/^\/resurse(\/.*)?$/, (req, res, next) => {
         next();
     }
 });
+
 // Servește fișierele statice din folderul 'resurse'
 app.use('/resurse', express.static(path.join(__dirname, 'resurse')));
 
@@ -58,13 +58,11 @@ console.log("Calea folderului (__dirname):", __dirname);
 console.log("Calea fișierului (__filename):", __filename);
 console.log("Folderul curent de lucru (process.cwd()):", process.cwd());
 
-app.get(["/","/index","/home"], (req, res) => {
+app.get(["/", "/index", "/home"], (req, res) => {
     const galerie = getImaginiGalerie(req.query.luna);
     res.render('pagini/index', {
         galerie: galerie
     });
-   
-   
 });
 
 function afisareEroare(res, identificator, titlu, text, imagine) {
@@ -81,7 +79,7 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     let imagineFinal = imagine || eroare.imagine;
 
     // Setează statusul HTTP dacă e definit
-    let status = eroare.status ? eroare.identificator : 200;
+    let status = eroare.status ? eroare.status : 200;
 
     res.status(status).render("pagini/eroare", {
         titlu: titluFinal,
@@ -90,18 +88,15 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     });
 }
 
-
 app.get(/.*\.ejs$/, function(req, res) {
     afisareEroare(res, 400, "Nu ai voie să accesezi fișiere .ejs direct!");
-  });
+});
+
 app.get('/favicon.ico', (req, res) => {
     res.sendFile(path.join(__dirname, 'resurse', 'imagini', 'favicon', 'favicon.ico'));
 });
 
-
-
-
-//galerie =-----------------------------------------------------------------------------=
+// galerie =-----------------------------------------------------------------------------=
 function getImaginiGalerie(lunaParam) {
     const galerieRaw = fs.readFileSync("./galerie.json");
     const galerieJson = JSON.parse(galerieRaw);
@@ -138,9 +133,6 @@ app.get("/galerie", (req, res) => {
 });
 // ---------------------------------------------------------------------
 
-
-
-
 app.get("/:pagina", (req, res) => {
     let pagina = req.params.pagina;
     res.render(`pagini/${pagina}`, (err, html) => {
@@ -156,7 +148,7 @@ app.get("/:pagina", (req, res) => {
     });
 });
 
-// PASUL 20: Creare foldere necesare proiectlui
+// PASUL 20: Creare foldere necesare proiectului
 const vect_foldere = ["temp"];
 vect_foldere.forEach(fld => {
     const caleFolder = path.join(__dirname, fld);
@@ -167,10 +159,6 @@ vect_foldere.forEach(fld => {
         console.log(`Folderul există deja: ${caleFolder}`);
     }
 });
-
-
-
-
 
 // Pornește serverul
 app.listen(port, () => {

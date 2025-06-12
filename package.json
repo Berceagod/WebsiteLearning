@@ -1,0 +1,44 @@
+{
+  "name": "websitelearning",
+  "version": "1.0.0",
+  "description": "Proiect de Facultate Site Lego",
+  "main": "\t",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Berceagod/WebsiteLearning.git"
+  },
+  "keywords": [
+    "lego",
+    "jucarie",
+    "jucarii",
+    "caramizi",
+    "constructie",
+    "constructor",
+    "star-wars",
+    "lego",
+    "bricks",
+    "legos",
+    "sets",
+    "minifigures",
+    "minifigure",
+    "darth",
+    "vader",
+    "darth-vader"
+  ],
+  "author": "Mihnea-Cristian Bercea",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Berceagod/WebsiteLearning/issues"
+  },
+  "homepage": "https://github.com/Berceagod/WebsiteLearning#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
