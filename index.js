@@ -151,16 +151,19 @@ function getImaginiGalerieAnimata() {
 }
 
 app.get("/galerieanimata", (req, res) => {
+    res.setHeader('Cache-Control', 'no-store, max-age=0');
+    res.setHeader('Pragma', 'no-cache');
+
     const galerie = getImaginiGalerieAnimata();
     const numarImagini = [4, 9, 16][Math.floor(Math.random() * 3)];
     galerie.imagini = galerie.imagini.slice(0, numarImagini);
 
     res.render('pagini/galerieanimata', {
         galerie: galerie,
-        numarImagini: numarImagini
+        numarImagini: numarImagini,
+        timestamp: Date.now() // Adăugăm un timestamp
     });
 });
-
 //---------------------------
 
 

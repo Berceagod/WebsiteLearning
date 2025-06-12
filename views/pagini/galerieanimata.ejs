@@ -14,7 +14,7 @@
     <div class="galerie-animata" style="grid-template-columns: repeat(<%= Math.sqrt(numarImagini) %>, 1fr);">
         <% for(let imagine of galerie.imagini) { %>
             <figure class="galerie-item">
-                <img src="/<%= galerie.cale_galerie %><%= imagine.cale_fisier %>" alt="<%= imagine.titlu %>">
+                <img src="/<%= galerie.cale_galerie %><%= imagine.cale_fisier %>?t=<%= timestamp %>" alt="<%= imagine.titlu %>">
                 <figcaption><%= imagine.titlu %></figcaption>
             </figure>
         <% } %>
