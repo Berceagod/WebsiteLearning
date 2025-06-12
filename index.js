@@ -109,7 +109,7 @@ app.get("/:pagina", (req, res) => {
         }
     });
 });
-
+//a
 // PASUL 20: Creare foldere necesare proiectlui
 const vect_foldere = ["temp"];
 vect_foldere.forEach(fld => {
