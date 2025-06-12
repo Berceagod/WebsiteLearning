@@ -105,6 +105,13 @@
         "alt": "Restaurantul Durrr Burger",
         "text_descriere": "Set LEGO Restaurantul Durrr Burger",
         "luni": ["octombrie", "ianuarie", "aprilie"]
+      },
+      {
+        "cale_fisier": "img16.jpg",
+        "titlu": "Chevrolet Corvette Stingray",
+        "alt": "Chevrolet Corvette Stingray albastru",
+        "text_descriere": "Set LEGO RChevrolet Corvette Stingray albastru",
+        "luni": ["octombrie", "ianuarie", "februarie"]
       }
     ]
   }

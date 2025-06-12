@@ -1,15 +1,12 @@
 <link rel="stylesheet" href="/resurse/css/galerie.css">
 <div class="galerie-grid">
     <% if (galerie && galerie.imagini && galerie.imagini.length > 0) { %>
-        <% galerie.imagini.forEach(function(img, idx) { %>
+        <% galerie.imagini.slice(0, 12).forEach(function(img, idx) { %>
             <figure class="galerie-item">
-                <picture>
-                    <img src="/<%= galerie.cale_galerie %><%= img.cale_fisier %>" 
-                         alt="<%= img.alt || img.titlu %>" 
-                         title="<%= img.text_descriere %>">
-                </picture>
+                <img src="/<%= galerie.cale_galerie %><%= img.cale_fisier %>"
+                     alt="<%= img.alt %>"
+                     title="<%= img.text_descriere %>">
                 <figcaption>
-                    <span class="greek-index"></span>
                     <%= img.titlu %>
                 </figcaption>
             </figure>

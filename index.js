@@ -132,6 +132,17 @@ app.get("/galerie", (req, res) => {
     });
 });
 // ---------------------------------------------------------------------
+//galerie animata
+app.get("/galerieanimata", (req, res) => {
+    const luna = req.query.luna; // preia din URL, ex: /galerie?luna=aprilie
+    const galerie = getImaginiGalerie(luna);
+    res.render('pagini/galerieanimata', {
+        galerie: galerie
+    });
+});
+
+//---------------------------
+
 
 app.get("/:pagina", (req, res) => {
     let pagina = req.params.pagina;
