@@ -28,13 +28,8 @@
   bottom: 0;
   left: 0;
   width: 100%;
-<<<<<<< Updated upstream
-  height: 3px;
-  background: linear-gradient(90deg, black, white, black);
-=======
   height: 2px;
   background: linear-gradient(90deg, green, white, green);
->>>>>>> Stashed changes
   opacity: 0;
   transform: translateY(-10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
