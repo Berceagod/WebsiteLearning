@@ -1,9 +1,16 @@
 <%- include('../fragmente/head', {titlu: "Produse"}) %>
 <%- include('../fragmente/header') %>
 <script src="/resurse/js/filtru-produse.js"></script>
+<!-- Normalizarea Categoriei sa nu fie cu litere mari-->
+<%
+function normalizeCategorie(cat) {
+    return cat ? cat.normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase() : '';
+}
+%>
 <main class="container">
+    <!-- Sectiunea de filtre pentru produse -->
     <section id="sectiune-filtre">
-        <% // Calculează min/max preț, vârste distincte, luni distincte, minifigurine distincte %>
+        <!-- // Calculez valorile min/max pentru pret, varste distincte, luni distincte, minifigurine distincte -->
         <% let preturi = produse.map(p => p.pret);
            let minPret = Math.min(...preturi);
            let maxPret = Math.max(...preturi);
@@ -18,7 +25,8 @@
            let toateMinifigs = new Set();
            produse.forEach(p => (p.minifigurine_incluse||"").split(",").forEach(mf => {if(mf.trim()) toateMinifigs.add(mf.trim())}));
         %>
-        <!-- Text: caută după nume -->
+        <!-- Inputuri pentru filtrare: nume, pret, categorie, descriere, varsta, minifigurine, luna, exclusivitate, discount -->
+        <!-- Fiecare input are un id unic folosit de JS pentru filtrare -->
         <div class="filtru-grup">
             <label for="filtru-nume">Caută după nume:</label>
             <input type="text" id="filtru-nume" placeholder="Nume produs...">
@@ -37,7 +45,8 @@
         <!-- Datalist: categorie -->
         <div class="filtru-grup">
             <label for="filtru-categorie">Categorie:</label>
-            <input list="categorii-lista" id="filtru-categorie" placeholder="Alege categorie...">
+            <!-- Inputul de categorie foloseste datalist pentru autocomplete -->
+            <input list="categorii-lista" id="filtru-categorie" placeholder="Alege categorie..." value="<%= categorieSelectata && categorieSelectata !== 'toate' ? categorieSelectata : '' %>">
             <datalist id="categorii-lista">
                 <option value="oricare">
                 <% categorii.forEach(function(cat) { %>
@@ -101,8 +110,7 @@
                 <label><input type="checkbox" id="filtru-discount"> Afișează doar cu discount (preț > 500 lei)</label>
             </fieldset>
         </div>
-    
-        <!-- Butoane operaționale -->
+        <!-- Butoane pentru filtrare, sortare, suma si resetare -->
         <div class="butoane-filtru">
             <button id="btn-filtreaza" type="button">Filtrează</button>
             <button id="btn-sort-asc" type="button">Sortare ascendentă</button>
@@ -111,47 +119,45 @@
             <button id="btn-resetare" type="button">Resetare</button>
         </div>
     </section>
-
-    <!-- Restul paginii rămâne la fel -->
+    <!-- Sectiunea cu lista de produse -->
     <section class="products-section">
         <h1>Produse</h1>
         <div id="lista-produse">
             <% if (produse && produse.length > 0) { %>
                 <div class="grid-produse">
-                    <% produse.forEach(function(prod) { 
-                        let categorieClass = prod.categorie.replace(/\s+/g, '');
-                    %>
-                    <article id="produs_<%= prod.id %>" class="produs-articol <%= categorieClass %>" data-luna="<%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { month: 'long' }).toLowerCase() : '' %>">
-                        <div class="produs-col stanga">
-                            <img src="<%= prod.imagine %>" alt="<%= prod.nume %>" style="width:120px;height:120px;object-fit:cover;">
-                            <div class="produs-info">
-                                <span class="produs-categorie"><%= prod.categorie %></span>
-                                <span class="produs-pret"><%= prod.pret %></span>
+                    <!-- // Pentru fiecare produs, generez articolul cu clasa de categorie normalizata pentru filtrare JS ----->
+                    <% produse.forEach(function(prod) { %>
+                        <article id="produs_<%= prod.id %>" class="produs-articol <%= normalizeCategorie(prod.categorie) %>" data-luna="<%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { month: 'long' }).toLowerCase() : '' %>">
+                            <div class="produs-col stanga">
+                                <img src="<%= prod.imagine %>" alt="<%= prod.nume %>" style="width:120px;height:120px;object-fit:cover;">
+                                <div class="produs-info">
+                                    <span class="produs-categorie"><%= prod.categorie %></span>
+                                    <span class="produs-pret"><%= prod.pret %></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="produs-col dreapta">
-                            <h2><span class="val-nume"><%= prod.nume %></span></h2>
-                            <details>
-                                <summary>Specificații</summary>
-                                <ul>
-                                    <li><b>Vârstă recomandată:</b> <i><span class="val-varsta"><%= prod.varsta_recomandata %></span></i></li>
-                                    <li><b>Minifigurine incluse:</b> <i class="val-minifigurine-incluse"><%= prod.minifigurine_incluse && prod.minifigurine_incluse.trim() !== "" ? prod.minifigurine_incluse : "Nicio minifigurină" %></i></li>
-                                    <li><b>Număr minifigurine:</b> <i class="val-numar-minifigurine"><%= typeof prod.numar_minifigurine !== "undefined" && prod.numar_minifigurine !== null ? prod.numar_minifigurine : "-" %></i></li>
-                                    <li><b>Număr piese:</b> <i><span class="val-numar-piese"><%= prod.numar_piese %></span></i></li>
-                                    <li><b>Data adăugare:</b> <i><time class="val-data" datetime="<%= prod.data_adaugare ? prod.data_adaugare.toISOString().split('T')[0] : '' %>"><%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' }) : '' %></time></i></li>
-                                    <li><b>Exclusiv:</b> <i class="val-exclusiv"><%= prod.exclusiv ? 'Da' : 'Nu' %></i></li>
-                                    <li><b>Culoare:</b> <i class="val-culoare"><%= prod.culoare || '-' %></i></li>
-                                </ul>
-                            </details>
-                            <div class="produs-descriere"><%= prod.descriere %></div>
-                            <a href="/produs/<%= prod.id %>" class="detalii-link">Detalii</a>
-                            <div class="produs-actiuni" style="margin-top:0.7em;display:flex;gap:0.7em;">
-                                <button class="btn-actiune btn-pin" title="Păstrează produsul pe ecran" data-id="<%= prod.id %>"><i class="fa-solid fa-thumbtack"></i></button>
-                                <button class="btn-actiune btn-hide-temp" title="Șterge temporar produsul" data-id="<%= prod.id %>"><i class="fa-solid fa-eye-slash"></i></button>
-                                <button class="btn-actiune btn-hide-session" title="Șterge produsul pe sesiune (tab)" data-id="<%= prod.id %>"><i class="fa-solid fa-trash"></i></button>
+                            <div class="produs-col dreapta">
+                                <h2><span class="val-nume"><%= prod.nume %></span></h2>
+                                <details>
+                                    <summary>Specificații</summary>
+                                    <ul>
+                                        <li><b>Vârstă recomandată:</b> <i><span class="val-varsta"><%= prod.varsta_recomandata %></span></i></li>
+                                        <li><b>Minifigurine incluse:</b> <i class="val-minifigurine-incluse"><%= prod.minifigurine_incluse && prod.minifigurine_incluse.trim() !== "" ? prod.minifigurine_incluse : "Nicio minifigurină" %></i></li>
+                                        <li><b>Număr minifigurine:</b> <i class="val-numar-minifigurine"><%= typeof prod.numar_minifigurine !== "undefined" && prod.numar_minifigurine !== null ? prod.numar_minifigurine : "-" %></i></li>
+                                        <li><b>Număr piese:</b> <i><span class="val-numar-piese"><%= prod.numar_piese %></span></i></li>
+                                        <li><b>Data adăugare:</b> <i><time class="val-data" datetime="<%= prod.data_adaugare ? prod.data_adaugare.toISOString().split('T')[0] : '' %>"><%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' }) : '' %></time></i></li>
+                                        <li><b>Exclusiv:</b> <i class="val-exclusiv"><%= prod.exclusiv ? 'Da' : 'Nu' %></i></li>
+                                        <li><b>Culoare:</b> <i class="val-culoare"><%= prod.culoare || '-' %></i></li>
+                                    </ul>
+                                </details>
+                                <div class="produs-descriere"><%= prod.descriere %></div>
+                                <a href="/produs/<%= prod.id %>" class="detalii-link">Detalii</a>
+                                <div class="produs-actiuni" style="margin-top:0.7em;display:flex;gap:0.7em;">
+                                    <button class="btn-actiune btn-pin" title="Păstrează produsul pe ecran" data-id="<%= prod.id %>"><i class="fa-solid fa-thumbtack"></i></button>
+                                    <button class="btn-actiune btn-hide-temp" title="Șterge temporar produsul" data-id="<%= prod.id %>"><i class="fa-solid fa-eye-slash"></i></button>
+                                    <button class="btn-actiune btn-hide-session" title="Șterge produsul pe sesiune (tab)" data-id="<%= prod.id %>"><i class="fa-solid fa-trash"></i></button>
+                                </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
                     <% }); %>
                 </div>
                 <div id="paginare" class="paginare"></div>
