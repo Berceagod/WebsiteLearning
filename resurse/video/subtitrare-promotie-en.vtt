@@ -1,8 +1,8 @@
 WEBVTT
 STYLE
 ::cue {
-  background: #FFC215; /* c1 deschisă - galben */
-  color: #DB372A;      /* c2 închisă - roșu */
+  background: #FFC215;
+  color: #DB372A;
   font-size: 1.1em;
 }
 ::cue(u) {

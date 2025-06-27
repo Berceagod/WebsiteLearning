@@ -10,7 +10,7 @@
       "identificator": 404,
       "status": true,
       "titlu": "404 - Pagina nu a fost găsită",
-      "text": "Pagina pe care o cauți nu există sau a fost mutată. Mesaj din json",
+      "text": "Pagina pe care o cauți nu există sau a fost mutată",
       "imagine": "404.png"
     },
     {

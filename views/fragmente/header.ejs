@@ -15,10 +15,9 @@
             <li class="nav-item has-submenu" aria-haspopup="true" aria-expanded="false">
                 <a href="#" class="nav-link">Pagini Site</a>
                 <ul class="submenu">
-                    <li class="submenu-item"><a href="galerie-statica.html" class="submenu-link">Galerie Statică</a></li>
-                    <li class="submenu-item"><a href="galerie-dinamica.html" class="submenu-link">Galerie Dinamică</a></li>
-                    <li class="submenu-item"><a href="/despre" class="submenu-link">Despre Noi</a></li>
-                    <li class="submenu-item"><a href="contact.html" class="submenu-link">Contact</a></li>
+                    <li class="submenu-item"><a href="/galerie" class="submenu-link">Galerie Statică</a></li>
+                    <li class="submenu-item"><a href="/galerieanimata" class="submenu-link">Galerie Dinamică</a></li>
+                    <li class="submenu-item"><a href="#contact" class="submenu-link">Contact</a></li>
                 </ul>
             </li>
 
@@ -35,6 +34,21 @@
                     <li class="submenu-item"><a href="#member" class="submenu-link">Devino membru</a></li>
                 </ul>
             </li>
+
+            <li class="nav-item has-submenu" aria-haspopup="true" aria-expanded="false">
+                <a href="/produse" class="nav-link">Produse</a>
+                <ul class="submenu">
+                    <li class="submenu-item"><a href="/produse" class="submenu-link">Toate</a></li>
+                    <% if (typeof categorii !== "undefined" && categorii.length) { %>
+                        <% categorii.forEach(function(cat) { %>
+                            <li class="submenu-item">
+                                <a href="/produse?categorie=<%= cat %>" class="submenu-link"><%= cat %></a>
+                            </li>
+                        <% }); %>
+                    <% } %>
+                </ul>
+            </li>
+            
         </ul>
     </nav>
 

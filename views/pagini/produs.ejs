@@ -1,0 +1,32 @@
+<%- include('../fragmente/head', {titlu: produs.nume}) %>
+<%- include('../fragmente/header') %>
+
+<main class="container">
+    <div class="produs-unic-wrapper">
+        <div class="produs-unic-img">
+            <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+            <% if (produs.exclusiv) { %>
+                <span class="badge-exclusiv">Exclusiv</span>
+            <% } %>
+        </div>
+        <div class="produs-unic-detalii">
+            <h1><%= produs.nume %></h1>
+            <p class="produs-categorie"><strong>Categorie:</strong> <%= produs.categorie %></p>
+            <p class="produs-pret"><strong>Preț:</strong> <span><%= produs.pret %> Lei</span></p>
+            <p><strong>Vârstă recomandată:</strong> <%= produs.varsta_recomandata %></p>
+            <p><strong>Număr piese:</strong> <%= produs.numar_piese %></p>
+            <p><strong>Cod LEGO:</strong> <%= produs.cod_lego %></p>
+            <p><strong>Data adăugare:</strong> <%= produs.data_adaugare ? produs.data_adaugare.toLocaleDateString() : '' %></p>
+            <p><strong>Număr minifigurine:</strong> <%= produs.numar_minifigurine %></p>
+            <% if (produs.minifigurine_incluse) { %>
+                <p><strong>Minifigurine incluse:</strong> <%= produs.minifigurine_incluse %></p>
+            <% } %>
+            <div class="produs-descriere">
+                <h2>Descriere</h2>
+                <p><%= produs.descriere %></p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<%- include('../fragmente/footer') %>

@@ -3,10 +3,26 @@
 
 <main class="container">
     <section class="about-section">
-        <h1>Despre LegoCorner</h1>
-        
+        <div id="reflexie-titlu-wrapper">
+            <h1 id="reflexie-titlu">Despre LegoCorner</h1>
+            <span id="reflexie-titlu-reflect">Despre LegoCorner</span>
+        </div>
+        <div class="video-bg-container">
+  <video autoplay loop muted playsinline poster="/resurse/imagini/galerie/img1.jpg" id="bg-video">
+    <source src="/resurse/video/video-promotie.mp4" type="video/mp4">
+    <source src="/resurse/video/video-promotie.webm" type="video/webm">
+    <!-- Poți adăuga și alte formate dacă ai nevoie -->
+    Your browser does not support the video tag.
+  </video>
+</div>
+<div class="video-bg-overlay"></div>
+        <div class="banner-animat">
+            <span class="banner-text">Noile seturi STAR-WARS sunt la reducere 10% !</span>
+        </div>
+        <hr class="hr-stilizat">
         <div class="about-content">
-            <div class="about-text">
+            <div class="duotone-img"></div>
+            <div class="about-text text-coloane">
                 <h2>Despre Proiect</h2>
                 <p>LegoCorner este un proiect dezvoltat în cadrul studiilor universitare, având ca scop crearea unei platforme web moderne și interactive pentru pasionații de LEGO. Acest site reprezintă o demonstrație practică a cunoștințelor acumulate în domeniul dezvoltării web.</p>
                 
@@ -28,4 +44,38 @@
     </section>
 </main>
 
+<section class="sectiune-tabel">
+    <h2 style="margin-top:2em;"></h2>
+    <table id="transpus">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Prenume</th>
+                <th>Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Bercea</td>
+                <td>Mihnea</td>
+                <td>Manager</td>
+            </tr>
+            <tr>
+                <td>Chiscan</td>
+                <td>Matei</td>
+                <td>Ambalator Manual</td>
+            </tr>
+            <tr>
+                <td>Nica</td>
+                <td>Octavian</td>
+                <td>Boxier</td>
+            </tr>
+            <tr>
+                <td>Stan</td>
+                <td>Andrei</td>
+                <td>Casier/Maturator</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 <%- include('../fragmente/footer') %> 

@@ -1,14 +1,31 @@
 const fs = require('fs');
 const sass = require('sass');
+const path = require('path');
+
+// Importă express
+const express = require('express');
+const { Pool } = require('pg');
+
+
+const pool = new Pool({
+    user: 'legouser',         // utilizatorul creat de tine
+    host: 'localhost',        // sau IP-ul serverului tău PostgreSQL
+    database: 'legocorner',   // numele bazei de date
+    password: 'admin',    // parola utilizatorului
+    port: 5432,               // portul default PostgreSQL
+});
+
 global.obGlobal = {
-    obErori: null
+    obErori: null,
+    folderScss: path.join(__dirname, 'resurse', 'scss'),
+    folderCss: path.join(__dirname, 'resurse', 'css')
 };
 
 function initErori() {
     let eroriRaw = fs.readFileSync("./erori.json");
     let eroriJson = JSON.parse(eroriRaw);
 
-    // Setează calea absolută pentru fiecare imagine
+
     eroriJson.info_erori.forEach(err => {
         err.imagine = eroriJson.cale_baza + err.imagine;
     });
@@ -18,16 +35,14 @@ function initErori() {
 }
 initErori();
 
-// Importă express
-const express = require('express');
+
 
 // Creează serverul
 const app = express();
 
-// Setează portul (8080 sau altul dacă e ocupat)
 const port = 8080;
 
-const path = require('path');
+
 app.use('/temp', express.static(path.join(__dirname, 'temp')));
 // Setează EJS ca motor de template
 app.set('view engine', 'ejs');
@@ -59,11 +74,26 @@ console.log("Calea folderului (__dirname):", __dirname);
 console.log("Calea fișierului (__filename):", __filename);
 console.log("Folderul curent de lucru (process.cwd()):", process.cwd());
 
-app.get(["/", "/index", "/home"], (req, res) => {
-    const galerie = getImaginiGalerie(req.query.luna);
-    res.render('pagini/index', {
-        galerie: galerie
-    });
+// Ruta pentru pagina principala. Am facut-o async ca sa pot folosi await pentru query-uri la baza de date
+app.get(["/", "/index", "/home"], async (req, res) => {
+    try {
+        // Extrag categoriile din ENUM-ul din PostgreSQL (categorie_enum)
+        // Folosesc unnest(enum_range(NULL::categorie_enum)) ca sa obtin toate valorile posibile
+        const categResult = await pool.query("SELECT unnest(enum_range(NULL::categorie_enum)) AS categorie");
+        // Transform rezultatul in array simplu de stringuri
+        const categorii = categResult.rows.map(row => row.categorie);
+        // Extrag imaginile pentru galerie (functie deja existenta)
+        const galerie = getImaginiGalerie(req.query.luna);
+        // Trimit catre EJS atat galeria cat si categoriile extrase din baza de date
+        res.render('pagini/index', {
+            galerie: galerie,
+            categorii: categorii
+        });
+    } catch (err) {
+        // Daca apare vreo eroare la query, o afisez in consola si trimit mesaj de eroare la client
+        console.error('Eroare la extragere categorii:', err);
+        res.status(500).send('Eroare la afisarea paginii principale');
+    }
 });
 
 function afisareEroare(res, identificator, titlu, text, imagine) {
@@ -74,7 +104,7 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
         if (gasit) eroare = gasit;
     }
 
-    // Suprascrie cu argumentele dacă sunt date
+
     let titluFinal = titlu || eroare.titlu;
     let textFinal = text || eroare.text;
     let imagineFinal = imagine || eroare.imagine;
@@ -82,7 +112,7 @@ function afisareEroare(res, identificator, titlu, text, imagine) {
     // Setează statusul HTTP dacă e definit
     let status = eroare.status ? eroare.status : 200;
 
-    res.status(status).render("pagini/eroare", {
+    res.status(404).render("pagini/eroare", {
         titlu: titluFinal,
         text: textFinal,
         imagine: imagineFinal
@@ -107,7 +137,7 @@ function getImaginiGalerie(lunaParam) {
         "iulie", "august", "septembrie", "octombrie", "noiembrie", "decembrie"
     ];
 
-    // Dacă există parametru, îl folosim, altfel luna curentă
+
     let lunaCurenta = lunaParam && luni.includes(lunaParam.toLowerCase())
         ? lunaParam.toLowerCase()
         : luni[new Date().getMonth()];
@@ -126,7 +156,7 @@ function getImaginiGalerie(lunaParam) {
 }
 
 app.get("/galerie", (req, res) => {
-    const luna = req.query.luna; // preia din URL, ex: /galerie?luna=aprilie
+    const luna = req.query.luna;
     const galerie = getImaginiGalerie(luna);
     res.render('pagini/galerie', {
         galerie: galerie
@@ -184,6 +214,49 @@ app.get("/galerieanimata", (req, res) => {
     });
 });
 //---------------------------
+// -- PRODUSE =================-=-=-=-=-=-
+app.get("/produse", async (req, res) => {
+    try {
+        // 1. Ia toate categoriile din ENUM
+        const categResult = await pool.query("SELECT unnest(enum_range(NULL::categorie_enum)) AS categorie");
+        const categorii = categResult.rows.map(row => row.categorie);
+
+        // 2. Filtrare după categorie dacă există query param
+        let produseQuery = 'SELECT id, nume, imagine, categorie, pret, varsta_recomandata, numar_piese, data_adaugare, numar_minifigurine, minifigurine_incluse, exclusiv, descriere FROM produse';
+        let queryParams = [];
+        if (req.query.categorie && req.query.categorie !== "toate") {
+            produseQuery += ' WHERE categorie = $1';
+            queryParams.push(req.query.categorie);
+        }
+        produseQuery += ' ORDER BY id';
+
+        const result = await pool.query(produseQuery, queryParams);
+
+        res.render('pagini/produse', { 
+            produse: result.rows,
+            categorii: categorii,
+            categorieSelectata: req.query.categorie || "toate"
+        });
+    } catch (err) {
+        console.error('Eroare la interogare produse:', err);
+        res.status(500).send('Eroare la afișarea produselor');
+    }
+});
+
+app.get("/produs/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await pool.query('SELECT * FROM produse WHERE id = $1', [id]);
+        if (result.rows.length === 0) {
+            return res.status(404).send("Produsul nu a fost găsit.");
+        }
+        res.render('pagini/produs', { produs: result.rows[0] });
+    } catch (err) {
+        console.error('Eroare la interogare produs:', err);
+        res.status(500).send('Eroare la afișarea produsului');
+    }
+});
+//-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=--==--=-=-
 
 
 app.get("/:pagina", (req, res) => {
@@ -202,7 +275,7 @@ app.get("/:pagina", (req, res) => {
 });
 
 // PASUL 20: Creare foldere necesare proiectului
-const vect_foldere = ["temp"];
+const vect_foldere = ["temp", "backup"];
 vect_foldere.forEach(fld => {
     const caleFolder = path.join(__dirname, fld);
     if (!fs.existsSync(caleFolder)) {
@@ -210,6 +283,57 @@ vect_foldere.forEach(fld => {
         console.log(`Am creat folderul: ${caleFolder}`);
     } else {
         console.log(`Folderul există deja: ${caleFolder}`);
+    }
+});
+
+function compileazaScss(caleScss, caleCss) {
+    const pathScss = path.isAbsolute(caleScss) ? caleScss : path.join(obGlobal.folderScss, caleScss);
+    let numeFisier = path.basename(pathScss, ".scss");
+    let cssFileName = numeFisier + ".css";
+    const pathCss = caleCss
+        ? (path.isAbsolute(caleCss) ? caleCss : path.join(obGlobal.folderCss, caleCss))
+        : path.join(obGlobal.folderCss, cssFileName);
+
+    // Backup vechi CSS
+    if (fs.existsSync(pathCss)) {
+        const backupDir = path.join(__dirname, 'backup', 'resurse', 'css');
+        if (!fs.existsSync(backupDir)) {
+            fs.mkdirSync(backupDir, { recursive: true });
+        }
+        const backupFile = path.join(backupDir, cssFileName);
+        try {
+            fs.copyFileSync(pathCss, backupFile);
+            console.log(`Backup creat pentru ${cssFileName}`);
+        } catch (err) {
+            console.error(`Eroare la backup pentru ${cssFileName}:`, err);
+        }
+    }
+
+    // Compilează SCSS
+    try {
+        const rez = sass.renderSync({
+            file: pathScss,
+            outputStyle: 'compressed'
+        });
+        fs.writeFileSync(pathCss, rez.css);
+        console.log(`Compilat ${pathScss} -> ${pathCss}`);
+    } catch (err) {
+        console.error(`Eroare la compilarea SCSS (${pathScss}):`, err);
+    }
+}
+
+// Compilare inițială pentru toate fișierele SCSS
+fs.readdirSync(obGlobal.folderScss).forEach(fisier => {
+    if (fisier.endsWith('.scss')) {
+        compileazaScss(fisier);
+    }
+});
+
+// Watcher pentru modificări SCSS
+fs.watch(obGlobal.folderScss, (eventType, filename) => {
+    if (filename && filename.endsWith('.scss')) {
+        console.log(`Detectat ${eventType} la ${filename}`);
+        compileazaScss(filename);
     }
 });
 
