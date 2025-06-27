@@ -78,14 +78,66 @@ window.addEventListener("DOMContentLoaded", function () {
     }
 
     // =============================
+    // LOGICA BUTOANE ACTIUNI PE PRODUS
+    // =============================
+    // Seturi pentru pin și ascundere temporară
+    let pinned = new Set();
+    let hiddenTemp = new Set();
+    // Pentru sesiune persistentă
+    let hiddenSession = new Set(JSON.parse(sessionStorage.getItem('produseAscunseSession') || '[]'));
+
+    function updateSessionStorage() {
+        sessionStorage.setItem('produseAscunseSession', JSON.stringify(Array.from(hiddenSession)));
+    }
+
+    // Evenimente pe butoane (la fiecare load/filtrare)
+    function ataseazaActiuniProduse() {
+        document.querySelectorAll('.btn-pin').forEach(btn => {
+            btn.onclick = function(e) {
+                const id = this.dataset.id;
+                const art = document.getElementById('produs_' + id);
+                if (pinned.has(id)) {
+                    pinned.delete(id);
+                    art.classList.remove('pinned');
+                    this.classList.remove('activ');
+                } else {
+                    pinned.add(id);
+                    art.classList.add('pinned');
+                    this.classList.add('activ');
+                }
+                filtreaza(); // re-filtrează ca să aplice pin-ul
+            };
+        });
+        document.querySelectorAll('.btn-hide-temp').forEach(btn => {
+            btn.onclick = function(e) {
+                const id = this.dataset.id;
+                hiddenTemp.add(id);
+                filtreaza();
+            };
+        });
+        document.querySelectorAll('.btn-hide-session').forEach(btn => {
+            btn.onclick = function(e) {
+                const id = this.dataset.id;
+                hiddenSession.add(id);
+                updateSessionStorage();
+                filtreaza();
+            };
+        });
+    }
+
+    // =============================
     // INTEGRARE CU FILTRAREA
     // =============================
+  // Aici s-a normalizat textul, bonusul 7
+    function normalizeText(txt) {
+        return txt.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    }
 
     function filtreaza() {
-        const valNume = inputNume.value.toLowerCase();
+        const valNume = normalizeText(inputNume.value);
         const valPret = parseFloat(inputPret.value);
-        const valCategorie = inputCategorie.value.toLowerCase();
-        const valDescriere = inputDescriere.value.toLowerCase();
+        const valCategorie = normalizeText(inputCategorie.value);
+        const valDescriere = normalizeText(inputDescriere.value);
         const valVarsta = inputVarsta.value;
         const valMinifigurineIncluse = Array.from(inputMinifigurineIncluse.selectedOptions).map(opt => opt.value.toLowerCase()).filter(v => v);
         const valExclusiv = Array.from(radioExclusiv).find(r => r.checked).value;
@@ -95,10 +147,11 @@ window.addEventListener("DOMContentLoaded", function () {
 
         let produseVizibile = 0;
         articole.forEach(art => {
+            const id = art.id.replace('produs_', '');
             let ok = true;
 
             // Nume
-            if (valNume && !art.querySelector(".val-nume").textContent.toLowerCase().includes(valNume)) ok = false;
+            if (valNume && !normalizeText(art.querySelector(".val-nume").textContent).includes(valNume)) ok = false;
 
             // Pret
             const pret = parseFloat(art.querySelector(".produs-pret").textContent);
@@ -108,32 +161,39 @@ window.addEventListener("DOMContentLoaded", function () {
             if (valCategorie && valCategorie !== "oricare" && !art.classList.contains(valCategorie.replace(/\s+/g, ''))) ok = false;
 
             // Descriere
-            if (valDescriere && !art.querySelector(".produs-descriere").textContent.toLowerCase().includes(valDescriere)) ok = false;
+            if (valDescriere && !normalizeText(art.querySelector(".produs-descriere").textContent).includes(valDescriere)) ok = false;
 
             // Varsta recomandata
             if (valVarsta && valVarsta !== "" && !art.querySelector(".val-varsta").textContent.includes(valVarsta)) ok = false;
 
             // Minifigurine incluse (select multiplu)
             if (valMinifigurineIncluse.length > 0 && valMinifigurineIncluse[0] !== "") {
-                const minifigs = art.querySelector(".val-minifigurine-incluse").textContent.toLowerCase();
+                const minifigs = normalizeText(art.querySelector(".val-minifigurine-incluse").textContent);
                 if (!valMinifigurineIncluse.some(mf => minifigs.includes(mf))) ok = false;
             }
 
             // Exclusivitate
-            if (valExclusiv === "da" && art.querySelector(".val-exclusiv").textContent.trim().toLowerCase() !== "da") ok = false;
-            if (valExclusiv === "nu" && art.querySelector(".val-exclusiv").textContent.trim().toLowerCase() !== "nu") ok = false;
+            if (valExclusiv === "da" && normalizeText(art.querySelector(".val-exclusiv").textContent.trim()) !== "da") ok = false;
+            if (valExclusiv === "nu" && normalizeText(art.querySelector(".val-exclusiv").textContent.trim()) !== "nu") ok = false;
 
             // Doar cu minifigurine
-            if (doarCuMinifigurine && art.querySelector(".val-numar-minifigurine").textContent.trim() === "0") ok = false;
+            if (doarCuMinifigurine && normalizeText(art.querySelector(".val-numar-minifigurine").textContent.trim()) === "0") ok = false;
 
             // Luna data adaugare (corect: din atribut data-luna)
             if (valLuni.length > 0) {
-                const lunaProd = art.getAttribute("data-luna");
+                const lunaProd = normalizeText(art.getAttribute("data-luna"));
                 if (!valLuni.includes(lunaProd)) ok = false;
             }
 
             // Discount (pret > 500)
             if (doarDiscount && pret <= 500) ok = false;
+
+            // Pin: dacă e pin-uit, nu se ascunde niciodată
+            if (pinned.has(id)) ok = true;
+            // Ascundere temporară
+            if (hiddenTemp.has(id)) ok = false;
+            // Ascundere pe sesiune
+            if (hiddenSession.has(id)) ok = false;
 
             if (ok) produseVizibile++;
             art.style.display = ok ? "" : "none";
@@ -160,6 +220,7 @@ window.addEventListener("DOMContentLoaded", function () {
         // După filtrare, aplică paginarea
         paginaCurenta = 1;
         pagineazaProduse();
+        ataseazaActiuniProduse();
     }
 
     // Sortare
@@ -217,6 +278,7 @@ window.addEventListener("DOMContentLoaded", function () {
             inputMinifigurine.checked = false;
             inputDiscount.checked = false;
             radioExclusiv.forEach(r => { if (r.value === "oricare") r.checked = true; });
+            hiddenTemp.clear();
             filtreaza();
             // Resetare sortare: readaugă articolele în ordinea inițială
             let container = document.querySelector(".grid-produse");
@@ -277,7 +339,47 @@ window.addEventListener("DOMContentLoaded", function () {
     })();
 
     // =============================
-    // La load, la orice filtrare sau sortare, apelează pagineazaProduse()
+    // CSS pentru stări butoane/produs (inserat dinamic dacă nu există)
+    // =============================
+    (function(){
+        if (!document.getElementById('css-actiuni-produse')) {
+            const style = document.createElement('style');
+            style.id = 'css-actiuni-produse';
+            style.textContent = `
+            .produs-actiuni .btn-actiune {
+                background: #f3f3f3;
+                border: 1.5px solid #bbb;
+                border-radius: 50%;
+                width: 2.2em; height: 2.2em;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 1.1em;
+                cursor: pointer;
+                transition: background 0.2s, border 0.2s, color 0.2s;
+                color: #555;
+                box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+            }
+            .produs-actiuni .btn-actiune:hover, .produs-actiuni .btn-actiune:focus {
+                background: var(--accent, #DB8F2A);
+                color: #fff;
+                border-color: var(--accent, #DB8F2A);
+            }
+            .produs-actiuni .btn-actiune.activ {
+                background: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+            .produs-articol.pinned {
+                outline: 3px solid #007bff;
+                box-shadow: 0 0 0 4px #b3d7ff;
+            }
+            `;
+            document.head.appendChild(style);
+        }
+    })();
+
+    // =============================
+    // La load, la orice filtrare sau sortare, apelează pagineazaProduse() și atașează acțiuni
     // =============================
     pagineazaProduse();
+    ataseazaActiuniProduse();
 });

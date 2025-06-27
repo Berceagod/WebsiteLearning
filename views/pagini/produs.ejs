@@ -4,7 +4,21 @@
 <main class="container">
     <div class="produs-unic-wrapper">
         <div class="produs-unic-img">
-            <img src="<%= produs.imagine %>" alt="<%= produs.nume %>">
+            <!--  carusel cu 3 imagini identice pentru bonus 9 -->
+            <div id="carousel-produs" style="position:relative; width:320px; margin:auto;">
+                <!-- afisare -->
+                <img id="carousel-img" src="<%= produs.imagine %>" alt="<%= produs.nume %>" style="width:100%;height:320px;object-fit:contain;transition:opacity 0.4s;opacity:1;">
+                <!--butonul de navigare -->
+                <button id="carousel-prev" style="position:absolute;left:0;top:50%;transform:translateY(-50%);background:#fff;border:none;font-size:2em;cursor:pointer;">&#8592;</button>
+            
+                <button id="carousel-next" style="position:absolute;right:0;top:50%;transform:translateY(-50%);background:#fff;border:none;font-size:2em;cursor:pointer;">&#8594;</button>
+                <!--  3 buline  -->
+                <div id="carousel-dots" style="display:flex;justify-content:center;gap:0.5em;position:absolute;bottom:10px;left:0;right:0;z-index:2;">
+                    <span class="carousel-dot activ"></span>
+                    <span class="carousel-dot"></span>
+                    <span class="carousel-dot"></span>
+                </div>
+            </div>
             <% if (produs.exclusiv) { %>
                 <span class="badge-exclusiv">Exclusiv</span>
             <% } %>
@@ -12,12 +26,12 @@
         <div class="produs-unic-detalii">
             <h1><%= produs.nume %></h1>
             <p class="produs-categorie"><strong>Categorie:</strong> <%= produs.categorie %></p>
-            <p class="produs-pret"><strong>Preț:</strong> <span><%= produs.pret %> Lei</span></p>
-            <p><strong>Vârstă recomandată:</strong> <%= produs.varsta_recomandata %></p>
-            <p><strong>Număr piese:</strong> <%= produs.numar_piese %></p>
+            <p class="produs-pret"><strong>Pret:</strong> <span><%= produs.pret %> Lei</span></p>
+            <p><strong>Varsta recomandata:</strong> <%= produs.varsta_recomandata %></p>
+            <p><strong>Numar piese:</strong> <%= produs.numar_piese %></p>
             <p><strong>Cod LEGO:</strong> <%= produs.cod_lego %></p>
-            <p><strong>Data adăugare:</strong> <%= produs.data_adaugare ? produs.data_adaugare.toLocaleDateString() : '' %></p>
-            <p><strong>Număr minifigurine:</strong> <%= produs.numar_minifigurine %></p>
+            <p><strong>Data adaugare:</strong> <%= produs.data_adaugare ? produs.data_adaugare.toLocaleDateString() : '' %></p>
+            <p><strong>Numar minifigurine:</strong> <%= produs.numar_minifigurine %></p>
             <% if (produs.minifigurine_incluse) { %>
                 <p><strong>Minifigurine incluse:</strong> <%= produs.minifigurine_incluse %></p>
             <% } %>
@@ -28,5 +42,65 @@
         </div>
     </div>
 </main>
+
+<style>
+/* Aici stilizez bulinele (dots) de sub carusel. Fac bulina activa portocalie si usor mai mare */
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #bbb;
+    display: inline-block;
+    transition: background 0.3s, transform 0.2s;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.carousel-dot.activ {
+    background: #DB8F2A;
+    transform: scale(1.2);
+}
+</style>
+<script>
+// Aici am implementat logica caruselului cu 3 imagini identice, cu tranzitie smooth si dots
+(function(){
+    // Aici am creat un array cu 3 imagini identice, pentru ca asa a fost cerinta
+    const images = ["<%= produs.imagine %>", "<%= produs.imagine %>", "<%= produs.imagine %>"];
+    let idx = 0; // Aici tin minte indexul imaginii curente
+    const img = document.getElementById('carousel-img'); // Referinta la imaginea din carusel
+    const dots = document.querySelectorAll('#carousel-dots .carousel-dot'); // Referinta la bulinele de sub carusel
+    // Aici actualizez bulinele ca sa arate care e activa
+    function updateDots() {
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('activ', i === idx);
+        });
+    }
+    // Aici schimb imaginea cu fade out si fade in, si actualizez bulina activa
+    function schimbaImagine(nouIdx) {
+        img.style.opacity = 0; // Fac imaginea invizibila (fade out)
+        setTimeout(() => {
+            idx = nouIdx; // Actualizez indexul
+            img.src = images[idx]; // Schimb sursa imaginii
+            img.onload = () => {
+                img.style.opacity = 1; // Fac imaginea vizibila (fade in)
+            };
+            updateDots(); // Actualizez bulinele
+        }, 400); // 400ms = durata tranzitiei CSS
+    }
+    // Cand apas pe butonul stanga, trec la imaginea anterioara
+    document.getElementById('carousel-prev').onclick = function() {
+        schimbaImagine((idx + images.length - 1) % images.length);
+    };
+    // Cand apas pe butonul dreapta, trec la imaginea urmatoare
+    document.getElementById('carousel-next').onclick = function() {
+        schimbaImagine((idx + 1) % images.length);
+    };
+    // Cand dau click pe o bulina, sar direct la imaginea respectiva
+    dots.forEach((dot, i) => {
+        dot.onclick = function() {
+            if(i !== idx) schimbaImagine(i);
+        };
+    });
+})();
+</script>
 
 <%- include('../fragmente/footer') %>

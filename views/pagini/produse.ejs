@@ -145,6 +145,11 @@
                             </details>
                             <div class="produs-descriere"><%= prod.descriere %></div>
                             <a href="/produs/<%= prod.id %>" class="detalii-link">Detalii</a>
+                            <div class="produs-actiuni" style="margin-top:0.7em;display:flex;gap:0.7em;">
+                                <button class="btn-actiune btn-pin" title="Păstrează produsul pe ecran" data-id="<%= prod.id %>"><i class="fa-solid fa-thumbtack"></i></button>
+                                <button class="btn-actiune btn-hide-temp" title="Șterge temporar produsul" data-id="<%= prod.id %>"><i class="fa-solid fa-eye-slash"></i></button>
+                                <button class="btn-actiune btn-hide-session" title="Șterge produsul pe sesiune (tab)" data-id="<%= prod.id %>"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </div>
                     </article>
                     <% }); %>
