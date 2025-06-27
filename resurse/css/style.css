@@ -51,15 +51,18 @@
     }
 } 
 
+/* =====================
+   PAGINA PRODUSE LEGO
+   ===================== */
 
-
-
+/* Container grid pentru produse - flex pe verticală, spațiere mare între carduri */
 .grid-produse {
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
+/* Card produs: flex pe orizontală, cu colțuri rotunjite, umbră și padding generos */
 .produs-articol {
     display: flex;
     flex-direction: row;
@@ -69,8 +72,16 @@
     padding: 1.5rem;
     align-items: flex-start;
     gap: 2rem;
+    transition: box-shadow 0.2s, transform 0.2s;
 }
 
+/* Efect vizual la hover pe card produs */
+.produs-articol:hover {
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+    transform: translateY(-4px) scale(1.01);
+}
+
+/* Coloana stângă: imagine + info scurtă */
 .produs-col.stanga {
     flex: 1 1 200px;
     display: flex;
@@ -86,6 +97,7 @@
     border-radius: 10px;
     margin-bottom: 0.7rem;
     background: #f3f3f3;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.06);
 }
 
 .produs-info {
@@ -98,13 +110,16 @@
 .produs-categorie {
     color: var(--culoare-portocalie, #DB8F2A);
     font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .produs-pret {
     color: #007bff;
     font-weight: bold;
+    font-size: 1.1em;
 }
 
+/* Coloana dreaptă: titlu, detalii, descriere, buton */
 .produs-col.dreapta {
     flex: 2 1 350px;
     display: flex;
@@ -115,13 +130,18 @@
 .produs-col.dreapta h2 {
     margin-top: 0;
     margin-bottom: 0.5rem;
+    font-size: 1.4em;
+    color: #222;
 }
 
 .produs-descriere {
     margin-top: 0.7rem;
     color: #444;
+    font-size: 1em;
+    line-height: 1.5;
 }
 
+/* Butonul de detalii - portocaliu, cu efect la hover */
 .detalii-link {
     margin-top: 1rem;
     padding: 0.4rem 1.2rem;
@@ -140,6 +160,7 @@
     background: #ff5115;
 }
 
+/* Responsive: pe ecrane mici, cardul devine pe verticală */
 @media (max-width: 900px) {
     .produs-articol {
         flex-direction: column;
@@ -148,5 +169,191 @@
     .produs-col.stanga, .produs-col.dreapta {
         min-width: 0;
         width: 100%;
+    }
+}
+
+/* =====================
+   SECȚIUNEA DE FILTRE - MODERNIZATĂ
+   ===================== */
+   #sectiune-filtre {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px 25px;
+    align-items: end; /* Aliniază elementele la bază în rândul lor */
+}
+
+/* Gruparea fiecărui filtru (etichetă + input) */
+.filtru-grup {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Stil general pentru etichete */
+#sectiune-filtre label,
+#sectiune-filtre legend {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+/* Stiluri generale pentru input-uri, select-uri și textarea */
+#sectiune-filtre input[type="text"],
+#sectiune-filtre input[list],
+#sectiune-filtre select,
+#sectiune-filtre textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 1em;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#sectiune-filtre input[type="text"]:focus,
+#sectiune-filtre input[list]:focus,
+#sectiune-filtre select:focus,
+#sectiune-filtre textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+#sectiune-filtre textarea {
+    resize: vertical;
+}
+
+/* Stil pentru sliderul de preț */
+.filtru-grup-range {
+    display: flex;
+    flex-direction: column;
+}
+
+.range-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#filtru-pret {
+    flex-grow: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #ddd;
+    outline: none;
+    border-radius: 3px;
+}
+
+#filtru-pret::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+#filtru-pret::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+#pret-valoare {
+    font-weight: bold;
+    color: #e67e22;
+}
+
+/* Stil pentru radio buttons și checkboxes */
+#sectiune-filtre fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sectiune-filtre .grup-check-radio label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 0.95em;
+    margin-bottom: 5px;
+}
+
+#sectiune-filtre input[type="radio"],
+#sectiune-filtre input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #007bff; /* Mod simplu și modern de a colora bifa/punctul */
+    width: 1.2em;
+    height: 1.2em;
+}
+
+/* Container pentru butoane */
+.butoane-filtru {
+    grid-column: 1 / -1; /* Ocupă toată lățimea grid-ului */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 10px;
+}
+
+.butoane-filtru button {
+    padding: 10px 20px;
+    font-size: 0.95em;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    color: white;
+}
+
+.butoane-filtru button:hover {
+    transform: translateY(-1px);
+}
+
+#btn-filtreaza, #btn-sort-asc, #btn-sort-desc {
+    background-color: #007bff;
+}
+#btn-filtreaza:hover, #btn-sort-asc:hover, #btn-sort-desc:hover {
+    background-color: #0056b3;
+}
+
+#btn-suma {
+    background-color: #28a745;
+}
+#btn-suma:hover {
+    background-color: #1e7e34;
+}
+
+#btn-resetare {
+    background-color: #dc3545;
+}
+#btn-resetare:hover {
+    background-color: #b02a37;
+}
+
+/* Responsivitate pentru ecrane mici */
+@media (max-width: 768px) {
+    #sectiune-filtre {
+        grid-template-columns: 1fr; /* Un singur filtru pe rând */
     }
 }

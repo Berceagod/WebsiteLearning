@@ -4,13 +4,56 @@
 
 :root {
     --padding-standard: 8px;
-    --culoare-galben : #FFC215;
+    --culoare-galben : #FFC215; /* Fundal header light */
     --culoare-detalii : #FF5115;
     --culoare-alba : white;
     --culoare-portocalie: #DB8F2A;
     --culoare-rosie: #DB372A;
     --culoare-link-vizitat: var(--culoare-portocalie);
+
+    /* Variabile pentru temă light */
+    --bg-main: #f9f9f9;
+    --text-main: #222;
+    --card-bg: #fff;
+    --accent: #DB8F2A;
+    --btn-bg: #007bff;
+    --btn-text: #fff;
 }
+
+/* =====================
+   DARK THEME
+   ===================== */
+[data-theme="dark"] {
+    --bg-main: #181818;
+    --text-main: #f3f3f3;
+    --card-bg: #232323;
+    --accent: #ffb347;
+    --btn-bg: #222e50;
+    --btn-text: #fff;
+    --culoare-galben : #2d2d1a; /* Fundal header dark - nuanță închisă, nu portocaliu */
+    --culoare-detalii : #ffb347;
+    --culoare-alba : #232323;
+    --culoare-portocalie: #ffb347;
+    --culoare-rosie: #ff6f61;
+}
+
+/* =====================
+   ALB-NEGRU (MONOCHROME) THEME
+   ===================== */
+[data-theme="bw"] {
+    --bg-main: #fff;
+    --text-main: #111;
+    --card-bg: #fff;
+    --accent: #111;
+    --btn-bg: #111;
+    --btn-text: #fff;
+    --culoare-galben : #fff;
+    --culoare-detalii : #111;
+    --culoare-alba : #fff;
+    --culoare-portocalie: #111;
+    --culoare-rosie: #111;
+}
+
 html {
     font-size : 18px;
 }
@@ -30,6 +73,8 @@ header {
 }
 
 body{
+    background: var(--bg-main);
+    color: var(--text-main);
     --spatiere-pagina:100px;
     --spatiere-mica:20px;
 }
@@ -76,7 +121,7 @@ section {
 
 footer {
     background-color: #333;
-    color: white;
+    color: var(--culoare-alba);
     text-align: center;
     padding: 10px;
     margin-top: 20px;
@@ -242,6 +287,30 @@ main a:active {
     border: 2.5px solid black;
     border-radius: 6px;
     transition: border 0s;
+}
+
+.header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 20px;
+    background-color: var(--culoare-galben);
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
+    border-bottom: 4px solid var(--culoare-portocalie);
+}
+
+#btn-theme {
+    background: none;
+    border: none;
+    font-size: 1.7em;
+    cursor: pointer;
+    color: var(--text-main, #222);
+    transition: color 0.2s;
+    margin-left: 1.5em;
+}
+#btn-theme:hover {
+    color: var(--accent, #DB8F2A);
 }
 
 

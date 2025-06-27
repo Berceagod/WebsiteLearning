@@ -2,120 +2,154 @@
 <%- include('../fragmente/header') %>
 <script src="/resurse/js/filtru-produse.js"></script>
 <main class="container">
-    <section id="sectiune-filtre" class="sectiune-filtre">
+    <section id="sectiune-filtre">
+        <% // Calculează min/max preț, vârste distincte, luni distincte, minifigurine distincte %>
+        <% let preturi = produse.map(p => p.pret);
+           let minPret = Math.min(...preturi);
+           let maxPret = Math.max(...preturi);
+           let varste = Array.from(new Set(produse.map(p => p.varsta_recomandata).filter(Boolean)));
+           let luniSet = new Set();
+           produse.forEach(p => {
+             if (p.data_adaugare) {
+               luniSet.add(new Date(p.data_adaugare).toLocaleDateString('ro-RO', { month: 'long' }).toLowerCase());
+             }
+           });
+           let luniDistincte = Array.from(luniSet);
+           let toateMinifigs = new Set();
+           produse.forEach(p => (p.minifigurine_incluse||"").split(",").forEach(mf => {if(mf.trim()) toateMinifigs.add(mf.trim())}));
+        %>
         <!-- Text: caută după nume -->
-        <label for="filtru-nume">Caută după nume:</label>
-        <input type="text" id="filtru-nume" placeholder="Nume produs...">
+        <div class="filtru-grup">
+            <label for="filtru-nume">Caută după nume:</label>
+            <input type="text" id="filtru-nume" placeholder="Nume produs...">
+        </div>
     
-        <!-- Range: preț -->
-        <label for="filtru-pret">Preț:</label>
-        <span id="pret-min">0</span>
-        <input type="range" id="filtru-pret" min="0" max="2000" value="2000">
-        <span id="pret-max">2000</span>
-        <span id="pret-valoare">(2000)</span>
+        <!-- Range: preț (min/max generate dinamic) -->
+        <div class="filtru-grup filtru-grup-range">
+            <label for="filtru-pret">Preț: <span id="pret-valoare">(<%= maxPret %>)</span></label>
+            <div class="range-container">
+                <span id="pret-min"><%= minPret %></span>
+                <input type="range" id="filtru-pret" min="<%= minPret %>" max="<%= maxPret %>" value="<%= maxPret %>">
+                <span id="pret-max"><%= maxPret %></span>
+            </div>
+        </div>
     
         <!-- Datalist: categorie -->
-        <label for="filtru-categorie">Categorie:</label>
-        <input list="categorii-lista" id="filtru-categorie" placeholder="Alege categorie...">
-        <datalist id="categorii-lista">
-            <option value="oricare">
-            <% categorii.forEach(function(cat) { %>
-                <option value="<%= cat %>">
-            <% }); %>
-        </datalist>
-    
-        <!-- Radio: exclusivitate -->
-        <fieldset>
-            <legend>Exclusivitate:</legend>
-            <label><input type="radio" name="filtru-exclusiv" value="oricare" checked> Oricare</label>
-            <label><input type="radio" name="filtru-exclusiv" value="da"> Doar exclusive</label>
-            <label><input type="radio" name="filtru-exclusiv" value="nu"> Fără exclusive</label>
-        </fieldset>
-    
-        <!-- Checkbox: minifigurine -->
-        <label><input type="checkbox" id="filtru-minifigurine"> Doar seturi cu minifigurine</label>
+        <div class="filtru-grup">
+            <label for="filtru-categorie">Categorie:</label>
+            <input list="categorii-lista" id="filtru-categorie" placeholder="Alege categorie...">
+            <datalist id="categorii-lista">
+                <option value="oricare">
+                <% categorii.forEach(function(cat) { %>
+                    <option value="<%= cat %>">
+                <% }); %>
+            </datalist>
+        </div>
     
         <!-- Textarea: cuvânt cheie în descriere -->
-        <label for="filtru-descriere">Cuvânt cheie în descriere:</label>
-        <textarea id="filtru-descriere" rows="1" placeholder="Cuvânt cheie..."></textarea>
+        <div class="filtru-grup">
+            <label for="filtru-descriere">Cuvânt cheie în descriere:</label>
+            <textarea id="filtru-descriere" rows="1" placeholder="Cuvânt cheie..."></textarea>
+        </div>
+
+        <!-- Select simplu: vârstă recomandată (opțiuni generate dinamic) -->
+        <div class="filtru-grup">
+            <label for="filtru-varsta">Vârstă recomandată:</label>
+            <select id="filtru-varsta">
+                <option value="">Oricare</option>
+                <% varste.forEach(function(v) { %>
+                    <option value="<%= v %>"><%= v %></option>
+                <% }); %>
+            </select>
+        </div>
+        
+        <!-- Select multiplu: minifigurine incluse (opțiuni generate dinamic) -->
+        <div class="filtru-grup">
+            <label for="filtru-minifigurine-incluse">Minifigurine incluse:</label>
+            <select id="filtru-minifigurine-incluse" multiple size="<%= Math.min(4, toateMinifigs.size) || 1 %>">
+                <% if(toateMinifigs.size > 0) { %>
+                    <option value="">Oricare</option>
+                    <% toateMinifigs.forEach(mf => { %>
+                        <option value="<%= mf %>"><%= mf %></option>
+                    <% }); %>
+                <% } else { %>
+                    <option value="" disabled>Nu există opțiuni</option>
+                <% } %>
+            </select>
+        </div>
+        
+        <!-- Select multiplu: lună data adăugare (opțiuni generate dinamic) -->
+        <div class="filtru-grup">
+            <label for="filtru-luni">Luna adăugare:</label>
+            <select id="filtru-luni" multiple size="<%= Math.min(4, luniDistincte.length) || 1 %>">
+                <% luniDistincte.forEach(function(luna) { %>
+                    <option value="<%= luna %>" selected><%= luna.charAt(0).toUpperCase() + luna.slice(1) %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <!-- Radio: exclusivitate și Checkboxes -->
+        <div class="filtru-grup">
+            <fieldset class="grup-check-radio">
+                <legend>Opțiuni</legend>
+                <label><input type="radio" name="filtru-exclusiv" value="oricare" checked> Oricare exclusivitate</label>
+                <label><input type="radio" name="filtru-exclusiv" value="da"> Doar exclusive</label>
+                <label><input type="radio" name="filtru-exclusiv" value="nu"> Fără exclusive</label>
+            </fieldset>
+            <fieldset class="grup-check-radio" style="margin-top: 15px;">
+                <label><input type="checkbox" id="filtru-minifigurine"> Doar seturi cu minifigurine</label>
+                <label><input type="checkbox" id="filtru-discount"> Afișează doar cu discount (preț > 500 lei)</label>
+            </fieldset>
+        </div>
     
-        <!-- Select simplu: vârstă recomandată -->
-        <label for="filtru-varsta">Vârstă recomandată:</label>
-        <select id="filtru-varsta">
-            <option value="">Oricare</option>
-            <option value="4+">4+</option>
-            <option value="6+">6+</option>
-            <option value="8+">8+</option>
-            <option value="10+">10+</option>
-            <option value="12+">12+</option>
-            <option value="18+">18+</option>
-        </select>
-    
-        <!-- Select multiplu: minifigurine incluse (poți popula dinamic dacă vrei) -->
-        <label for="filtru-minifigurine-incluse">Minifigurine incluse:</label>
-        <select id="filtru-minifigurine-incluse" multiple>
-            <option value="">Oricare</option>
-            <option value="Bluey">Bluey</option>
-            <option value="Bingo">Bingo</option>
-            <option value="Kai">Kai</option>
-            <option value="Zane">Zane</option>
-            <!-- Adaugă aici alte minifigurine relevante -->
-        </select>
+        <!-- Butoane operaționale -->
+        <div class="butoane-filtru">
+            <button id="btn-filtreaza" type="button">Filtrează</button>
+            <button id="btn-sort-asc" type="button">Sortare ascendentă</button>
+            <button id="btn-sort-desc" type="button">Sortare descendentă</button>
+            <button id="btn-suma" type="button">Calculează suma</button>
+            <button id="btn-resetare" type="button">Resetare</button>
+        </div>
     </section>
+
+    <!-- Restul paginii rămâne la fel -->
     <section class="products-section">
         <h1>Produse</h1>
         <div id="lista-produse">
             <% if (produse && produse.length > 0) { %>
                 <div class="grid-produse">
                     <% produse.forEach(function(prod) { 
-                        // pentru clasa, eliminam spatiile din categorie
-                        let categorieClass = prod.categorie.replace(/\\s+/g, '');
+                        let categorieClass = prod.categorie.replace(/\s+/g, '');
                     %>
-                    <article id="produs_<%= prod.id %>" class="produs-articol <%= categorieClass %>">
+                    <article id="produs_<%= prod.id %>" class="produs-articol <%= categorieClass %>" data-luna="<%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { month: 'long' }).toLowerCase() : '' %>">
                         <div class="produs-col stanga">
-                            <img src="<%= prod.imagine %>" alt="<%= prod.nume %>">
+                            <img src="<%= prod.imagine %>" alt="<%= prod.nume %>" style="width:120px;height:120px;object-fit:cover;">
                             <div class="produs-info">
                                 <span class="produs-categorie"><%= prod.categorie %></span>
-                                <span class="produs-pret"><%= prod.pret %> Lei</span>
+                                <span class="produs-pret"><%= prod.pret %></span>
                             </div>
                         </div>
                         <div class="produs-col dreapta">
-                            <h2><%= prod.nume %></h2>
+                            <h2><span class="val-nume"><%= prod.nume %></span></h2>
                             <details>
                                 <summary>Specificații</summary>
                                 <ul>
-                                    <li><b>Vârstă recomandată:</b> <i><%= prod.varsta_recomandata %></i></li>
-                                    <li>
-                                        <b>Minifigurine incluse:</b>
-                                        <i>
-                                          <%= prod.minifigurine_incluse && prod.minifigurine_incluse.trim() !== "" ? prod.minifigurine_incluse : "Nicio minifigurină" %>
-                                        </i>
-                                      </li>
-                                      <li>
-                                        <b>Număr minifigurine:</b>
-                                        <i>
-                                          <%= typeof prod.numar_minifigurine !== "undefined" && prod.numar_minifigurine !== null ? prod.numar_minifigurine : "-" %>
-                                        </i>
-                                      </li><li><b>Număr piese:</b> <i><%= prod.numar_piese %></i></li>
-                                    <li>
-                                        <b>Data adăugare:</b>
-                                        <i>
-                                            <time datetime="<%= prod.data_adaugare ? prod.data_adaugare.toISOString().split('T')[0] : '' %>">
-                                                <%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' }) : '' %>
-                                            </time>
-                                        </i>
-                                    </li>
-                                    <li><b>Exclusiv:</b> <i><%= prod.exclusiv ? 'Da' : 'Nu' %></i></li>
+                                    <li><b>Vârstă recomandată:</b> <i><span class="val-varsta"><%= prod.varsta_recomandata %></span></i></li>
+                                    <li><b>Minifigurine incluse:</b> <i class="val-minifigurine-incluse"><%= prod.minifigurine_incluse && prod.minifigurine_incluse.trim() !== "" ? prod.minifigurine_incluse : "Nicio minifigurină" %></i></li>
+                                    <li><b>Număr minifigurine:</b> <i class="val-numar-minifigurine"><%= typeof prod.numar_minifigurine !== "undefined" && prod.numar_minifigurine !== null ? prod.numar_minifigurine : "-" %></i></li>
+                                    <li><b>Număr piese:</b> <i><span class="val-numar-piese"><%= prod.numar_piese %></span></i></li>
+                                    <li><b>Data adăugare:</b> <i><time class="val-data" datetime="<%= prod.data_adaugare ? prod.data_adaugare.toISOString().split('T')[0] : '' %>"><%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { day: '2-digit', month: 'long', year: 'numeric', weekday: 'long' }) : '' %></time></i></li>
+                                    <li><b>Exclusiv:</b> <i class="val-exclusiv"><%= prod.exclusiv ? 'Da' : 'Nu' %></i></li>
+                                    <li><b>Culoare:</b> <i class="val-culoare"><%= prod.culoare || '-' %></i></li>
                                 </ul>
                             </details>
-                            <div class="produs-descriere">
-                                <%= prod.descriere %>
-                            </div>
+                            <div class="produs-descriere"><%= prod.descriere %></div>
                             <a href="/produs/<%= prod.id %>" class="detalii-link">Detalii</a>
                         </div>
                     </article>
                     <% }); %>
                 </div>
+                <div id="paginare" class="paginare"></div>
             <% } else { %>
                 <p>Nu există produse de afișat.</p>
             <% } %>
@@ -123,4 +157,4 @@
     </section>
 </main>
 
-<%- include('../fragmente/footer') %> 
+<%- include('../fragmente/footer') %>
