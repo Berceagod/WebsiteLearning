@@ -6,12 +6,30 @@
 function normalizeCategorie(cat) {
     return cat ? cat.normalize("NFD").replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '').toLowerCase() : '';
 }
+<!--Calculez cel mai ieftin produs din fiecare categorie bonus 14--> 
+let minPretPeCategorie = {};
+produse.forEach(function(p) {
+    let cat = normalizeCategorie(p.categorie);
+    let pretNum = parseFloat(p.pret);
+    if (minPretPeCategorie[cat] === undefined || pretNum < minPretPeCategorie[cat]) {
+        minPretPeCategorie[cat] = pretNum;
+    }
+});
 %>
 <main class="container">
+    <!-- Modal pentru detalii produs. Se afiseaza cand dai click pe poza unui produs. bonus 11-->
+    <div id="modal-produs" class="modal-produs" style="display:none;">
+        <div class="modal-content">
+            <!-- Buton de inchidere (X) -->
+            <button class="modal-close" id="modal-close-btn" title="Inchide">&times;</button>
+            <!-- Aici se va genera dinamic continutul cu datele produsului -->
+            <div id="modal-body"></div>
+        </div>
+    </div>
     <!-- Sectiunea de filtre pentru produse -->
     <section id="sectiune-filtre">
         <!-- // Calculez valorile min/max pentru pret, varste distincte, luni distincte, minifigurine distincte -->
-        <% let preturi = produse.map(p => p.pret);
+        <% let preturi = produse.map(p => parseFloat(p.pret));
            let minPret = Math.min(...preturi);
            let maxPret = Math.max(...preturi);
            let varste = Array.from(new Set(produse.map(p => p.varsta_recomandata).filter(Boolean)));
@@ -32,7 +50,7 @@ function normalizeCategorie(cat) {
             <input type="text" id="filtru-nume" placeholder="Nume produs...">
         </div>
     
-        <!-- Range: preț (min/max generate dinamic) -->
+        <!-- Range: (min/max generate dinamic) -->
         <div class="filtru-grup filtru-grup-range">
             <label for="filtru-pret">Preț: <span id="pret-valoare">(<%= maxPret %>)</span></label>
             <div class="range-container">
@@ -110,6 +128,33 @@ function normalizeCategorie(cat) {
                 <label><input type="checkbox" id="filtru-discount"> Afișează doar cu discount (preț > 500 lei)</label>
             </fieldset>
         </div>
+        <!-- BONUS 8: Selectoare pentru sortare multi-cheie -->
+
+        <div class="filtru-grup" style="display:flex;gap:1em;align-items:end;flex-wrap:wrap;margin-bottom:0.7em;">
+            <div>
+                <label for="cheie-sortare-1"><b>Primul criteriu sortare (Bonus 8):</b></label>
+                <select id="cheie-sortare-1">
+                    <option value="pret">Preț</option>
+                    <option value="numar_minifigurine">Număr minifigurine</option>
+                    <option value="nume">Nume</option>
+                </select>
+            </div>
+            <div>
+                <label for="cheie-sortare-2"><b>Al doilea criteriu sortare:</b></label>
+                <select id="cheie-sortare-2">
+                    <option value="pret">Preț</option>
+                    <option value="numar_minifigurine">Număr minifigurine</option>
+                    <option value="nume">Nume</option>
+                </select>
+            </div>
+            <div>
+                <label for="sens-sortare"><b>Sens sortare:</b></label>
+                <select id="sens-sortare">
+                    <option value="asc">Crescător</option>
+                    <option value="desc">Descrescător</option>
+                </select>
+            </div>
+        </div>
         <!-- Butoane pentru filtrare, sortare, suma si resetare -->
         <div class="butoane-filtru">
             <button id="btn-filtreaza" type="button">Filtrează</button>
@@ -126,9 +171,14 @@ function normalizeCategorie(cat) {
             <% if (produse && produse.length > 0) { %>
                 <div class="grid-produse">
                     <!-- // Pentru fiecare produs, generez articolul cu clasa de categorie normalizata pentru filtrare JS ----->
-                    <% produse.forEach(function(prod) { %>
-                        <article id="produs_<%= prod.id %>" class="produs-articol <%= normalizeCategorie(prod.categorie) %>" data-luna="<%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { month: 'long' }).toLowerCase() : '' %>">
-                            <div class="produs-col stanga">
+                    <% produse.forEach(function(prod) { 
+                        let catNorm = normalizeCategorie(prod.categorie);
+                        let esteIeftin = parseFloat(prod.pret) === minPretPeCategorie[catNorm]; <!-- verificare daca este cel mai ieftin, bonus 14-->
+                    %>
+                    <!-- Format afisare produs -->
+                        <article id="produs_<%= prod.id %>" class="produs-articol <%= catNorm %> <%= esteIeftin ? 'produs-ieftin' : '' %>" data-luna="<%= prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO', { month: 'long' }).toLowerCase() : '' %>" data-produs='<%- JSON.stringify(prod) %>'>
+                            <!-- Cand dai click pe acest div (poza produsului), se deschide modalul cu detalii bonus 11-->
+                            <div class="produs-col stanga produs-img-click" style="cursor:pointer;">
                                 <img src="<%= prod.imagine %>" alt="<%= prod.nume %>" style="width:120px;height:120px;object-fit:cover;">
                                 <div class="produs-info">
                                     <span class="produs-categorie"><%= prod.categorie %></span>
@@ -150,6 +200,9 @@ function normalizeCategorie(cat) {
                                     </ul>
                                 </details>
                                 <div class="produs-descriere"><%= prod.descriere %></div>
+                                <% if(esteIeftin) { %> <!--bonus 14 -->
+                                    <div class="produs-ieftin-msg">Cel mai ieftin din categorie</div>
+                                <% } %>
                                 <a href="/produs/<%= prod.id %>" class="detalii-link">Detalii</a>
                                 <div class="produs-actiuni" style="margin-top:0.7em;display:flex;gap:0.7em;">
                                     <button class="btn-actiune btn-pin" title="Păstrează produsul pe ecran" data-id="<%= prod.id %>"><i class="fa-solid fa-thumbtack"></i></button>
@@ -167,5 +220,126 @@ function normalizeCategorie(cat) {
         </div>
     </section>
 </main>
+<script>
+// Logica pentru modalul de produs
+(function(){
+    const modal = document.getElementById('modal-produs');
+    const modalBody = document.getElementById('modal-body');
+    const closeBtn = document.getElementById('modal-close-btn');
+    // Atasez eveniment pe fiecare poza de produs (partea stanga)
+    document.querySelectorAll('.produs-img-click').forEach(function(imgCol){
+        imgCol.addEventListener('click', function(e){
+            e.stopPropagation();
+            const art = imgCol.closest('article');
+            // Scot datele produsului din atributul data-produs (JSON)
+            const prod = JSON.parse(art.getAttribute('data-produs'));
+            // Generez HTML-ul pentru modal cu toate detaliile produsului
+            modalBody.innerHTML = `
+                <div style="display:flex;gap:2em;align-items:flex-start;">
+                    <img src="${prod.imagine}" alt="${prod.nume}" style="width:160px;height:160px;object-fit:cover;border-radius:10px;box-shadow:0 2px 12px #db8f2a33;">
+                    <div style="flex:1;">
+                        <h2 style="margin-top:0;">${prod.nume}</h2>
+                        <p><b>Categorie:</b> ${prod.categorie}</p>
+                        <p><b>Pret:</b> ${prod.pret} Lei</p>
+                        <p><b>Varsta recomandata:</b> ${prod.varsta_recomandata}</p>
+                        <p><b>Numar piese:</b> ${prod.numar_piese}</p>
+                        <p><b>Numar minifigurine:</b> ${prod.numar_minifigurine}</p>
+                        <p><b>Minifigurine incluse:</b> ${prod.minifigurine_incluse || '-'}</p>
+                        <p><b>Exclusiv:</b> ${prod.exclusiv ? 'Da' : 'Nu'}</p>
+                        <p><b>Culoare:</b> ${prod.culoare || '-'}</p>
+                        <p><b>Data adaugare:</b> ${prod.data_adaugare ? new Date(prod.data_adaugare).toLocaleDateString('ro-RO') : ''}</p>
+                        <div style="margin-top:1em;"><b>Descriere:</b><br>${prod.descriere}</div>
+                    </div>
+                </div>
+            `;
+            // Afisez modalul
+            modal.style.display = 'flex';
+            setTimeout(()=>{modal.classList.add('vizibil');},10);
+        });
+    });
+    // Inchid modalul la click pe X
+    closeBtn.onclick = function(){
+        modal.classList.remove('vizibil');
+        setTimeout(()=>{modal.style.display='none';},200);
+    };
+    // Inchid modalul la click in afara continutului
+    modal.onclick = function(e){
+        if(e.target === modal){
+            modal.classList.remove('vizibil');
+            setTimeout(()=>{modal.style.display='none';},200);
+        }
+    };
+})();
+</script>
+<style>
+/* Stilizare pentru modalul de produs, folosind schema cromatica a site-ului bonus 9 */
+.modal-produs {
+    position: fixed;
+    z-index: 10000;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(34,34,34,0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.modal-produs.vizibil {
+    display: flex;
+    background: rgba(34,34,34,0.55);
+}
+.modal-content {
+    background: #fff8f0;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 #db8f2a44;
+    padding: 2.2em 2.5em 1.5em 2.5em;
+    min-width: 340px;
+    max-width: 600px;
+    position: relative;
+    animation: modal-pop 0.25s cubic-bezier(.4,1.6,.6,1) both;
+    border: 2.5px solid #db8f2a;
+}
+@keyframes modal-pop {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+.modal-close {
+    position: absolute;
+    top: 0.7em;
+    right: 1.1em;
+    background: none;
+    border: none;
+    font-size: 2.1em;
+    color: #db8f2a;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.2s;
+    z-index: 2;
+}
+.modal-close:hover {
+    color: #e53935;
+}
 
+.produs-ieftin { 
+    border: 2.5px solid #e53935 !important;
+    box-shadow: 0 0 0 2px #ffb3b3;
+    border-radius: 12px;
+}
+.produs-ieftin-msg {
+    color: #fff;
+    background: #e53935;
+    font-weight: bold;
+    padding: 0.3em 1em;
+    border-radius: 7px;
+    margin: 0.7em 0 0.2em 0;
+    display: inline-block;
+    font-size: 1.08em;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px 0 rgba(229,57,53,0.10);
+    animation: pulse-ieftin 1.2s infinite alternate;
+}
+@keyframes pulse-ieftin {
+    0% { box-shadow: 0 0 0 2px #ffb3b3; }
+    100% { box-shadow: 0 0 0 8px #ffb3b3; }
+}
+</style>
 <%- include('../fragmente/footer') %>

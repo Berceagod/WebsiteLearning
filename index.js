@@ -6,15 +6,17 @@ const path = require('path');
 const express = require('express');
 const { Pool } = require('pg');
 
-
+// Etapa 6 , baza de date, pool-ul pentru conexiuni pg
 const pool = new Pool({
-    user: 'legouser',         // utilizatorul creat de tine
-    host: 'localhost',        // sau IP-ul serverului tău PostgreSQL
-    database: 'legocorner',   // numele bazei de date
-    password: 'admin',    // parola utilizatorului
-    port: 5432,               // portul default PostgreSQL
+    user: 'legouser',         
+    host: 'localhost',        
+    database: 'legocorner',   
+    password: 'admin',    
+    port: 5432,              
 });
 
+
+// compilare scss , obiect global
 global.obGlobal = {
     obErori: null,
     folderScss: path.join(__dirname, 'resurse', 'scss'),
@@ -77,20 +79,19 @@ console.log("Folderul curent de lucru (process.cwd()):", process.cwd());
 // Ruta pentru pagina principala. Am facut-o async ca sa pot folosi await pentru query-uri la baza de date
 app.get(["/", "/index", "/home"], async (req, res) => {
     try {
-        // Extrag categoriile din ENUM-ul din PostgreSQL (categorie_enum)
-        // Folosesc unnest(enum_range(NULL::categorie_enum)) ca sa obtin toate valorile posibile
+
+        // unnest(enum_range(NULL::categorie_enum)) ca sa obtin toate valorile posibile
         const categResult = await pool.query("SELECT unnest(enum_range(NULL::categorie_enum)) AS categorie");
-        // Transform rezultatul in array simplu de stringuri
+        // array simplu de stringuri
         const categorii = categResult.rows.map(row => row.categorie);
-        // Extrag imaginile pentru galerie (functie deja existenta)
         const galerie = getImaginiGalerie(req.query.luna);
-        // Trimit catre EJS atat galeria cat si categoriile extrase din baza de date
+       
         res.render('pagini/index', {
             galerie: galerie,
             categorii: categorii
         });
     } catch (err) {
-        // Daca apare vreo eroare la query, o afisez in consola si trimit mesaj de eroare la client
+        
         console.error('Eroare la extragere categorii:', err);
         res.status(500).send('Eroare la afisarea paginii principale');
     }
@@ -242,7 +243,8 @@ app.get("/produse", async (req, res) => {
         res.status(500).send('Eroare la afișarea produselor');
     }
 });
-
+// generare pagina pentru fiecare produs in parte
+// BONUS 17: Afisare seturi din care face parte produsul, cu pret set si lista produse
 app.get("/produs/:id", async (req, res) => {
     try {
         const id = req.params.id;
@@ -250,7 +252,46 @@ app.get("/produs/:id", async (req, res) => {
         if (result.rows.length === 0) {
             return res.status(404).send("Produsul nu a fost găsit.");
         }
-        res.render('pagini/produs', { produs: result.rows[0] });
+        const produs = result.rows[0];
+        // 1. Interoghez seturile din care face parte produsul (bonus 17)
+        const seturiResult = await pool.query(`
+            SELECT s.id, s.nume_set, s.descriere_set
+            FROM asociere_set a
+            JOIN seturi s ON a.id_set = s.id
+            WHERE a.id_produs = $1
+            ORDER BY s.id
+        `, [id]);
+        const seturi = seturiResult.rows;
+        // 2. Pentru fiecare set, iau produsele si calculez pretul cu reducere (bonus 17)
+        for (let set of seturi) {
+            const produseResult = await pool.query(`
+                SELECT p.id, p.nume, p.imagine, p.pret
+                FROM asociere_set a
+                JOIN produse p ON a.id_produs = p.id
+                WHERE a.id_set = $1
+                ORDER BY p.id
+            `, [set.id]);
+            set.produse = produseResult.rows;
+            let n = set.produse.length;
+            let suma = set.produse.reduce((acc, p) => acc + parseFloat(p.pret), 0);
+            let reducere = Math.min(5, n) * 0.05;
+            set.pret_initial = suma;
+            set.pret_final = suma * (1 - reducere);
+            set.reducere = reducere;
+        }
+        
+        // BONUS 16: Produse similare - selectez produse din aceeasi categorie (criteriu de asemanare)
+        const produseSimilareResult = await pool.query(`
+            SELECT id, nume, imagine, pret, varsta_recomandata, numar_piese
+            FROM produse 
+            WHERE categorie = $1 AND id != $2
+            ORDER BY id
+            LIMIT 6
+        `, [produs.categorie, id]);
+        const produseSimilare = produseSimilareResult.rows;
+        
+        // 3. Trimit catre produs.ejs si seturile cu toate datele necesare (bonus 17) si produsele similare (bonus 16)
+        res.render('pagini/produs', { produs, seturi, produseSimilare });
     } catch (err) {
         console.error('Eroare la interogare produs:', err);
         res.status(500).send('Eroare la afișarea produsului');
@@ -258,6 +299,32 @@ app.get("/produs/:id", async (req, res) => {
 });
 //-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=--==--=-=-
 
+
+//---bonus 17 seturi
+
+app.get("/seturi", async (req, res) => {
+    try {
+        // Ia toate seturile
+        const seturiResult = await pool.query("SELECT * FROM seturi ORDER BY id");
+        const seturi = seturiResult.rows;
+        // Pentru fiecare set, ia produsele asociate
+        for (let set of seturi) {
+            const produseResult = await pool.query(`
+                SELECT p.id, p.nume, p.imagine, p.pret
+                FROM asociere_set a
+                JOIN produse p ON a.id_produs = p.id
+                WHERE a.id_set = $1
+                ORDER BY p.id
+            `, [set.id]);
+            set.produse = produseResult.rows;
+        }
+        res.render("pagini/seturi", { seturi });
+    } catch (err) {
+        console.error('Eroare la interogare seturi:', err);
+        res.status(500).send('Eroare la afisarea seturilor');
+    }
+});
+//-----------
 
 app.get("/:pagina", (req, res) => {
     let pagina = req.params.pagina;
@@ -274,7 +341,7 @@ app.get("/:pagina", (req, res) => {
     });
 });
 
-// PASUL 20: Creare foldere necesare proiectului
+// Creare foldere necesare proiectului scss
 const vect_foldere = ["temp", "backup"];
 vect_foldere.forEach(fld => {
     const caleFolder = path.join(__dirname, fld);
@@ -285,7 +352,7 @@ vect_foldere.forEach(fld => {
         console.log(`Folderul există deja: ${caleFolder}`);
     }
 });
-
+// compilarea scss
 function compileazaScss(caleScss, caleCss) {
     const pathScss = path.isAbsolute(caleScss) ? caleScss : path.join(obGlobal.folderScss, caleScss);
     let numeFisier = path.basename(pathScss, ".scss");
@@ -336,6 +403,8 @@ fs.watch(obGlobal.folderScss, (eventType, filename) => {
         compileazaScss(filename);
     }
 });
+
+
 
 // Pornește serverul
 app.listen(port, () => {

@@ -1,9 +1,3 @@
-// =============================
-// Script pentru schimbare temă light/dark/monochrome cu persistare în localStorage
-// =============================
-// Acest script funcționează pe orice pagină unde există butonul cu id btn-theme și iconul cu id icon-theme.
-// Scriptul este inclus în header.ejs, care este inclus pe toate paginile, deci funcționează global.
-// Tema se salvează în localStorage, deci preferința se păstrează la orice refresh sau navigare.
 
 // Setează tema pe <html> și salvează în localStorage. Schimbă iconul din buton (luna/soare/pătrat).
 function setTheme(theme) {
@@ -28,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
   setTheme(tema);
   const btn = document.getElementById('btn-theme');
   if (btn) {
-    // La click pe buton, avansează la următoarea temă (light → dark → bw → light)
+    // click pe buton,(light → dark → bw → light)
     btn.addEventListener('click', function() {
       const temaCurenta = document.documentElement.getAttribute('data-theme');
       let urmTema;

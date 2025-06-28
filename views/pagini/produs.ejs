@@ -41,10 +41,67 @@
             </div>
         </div>
     </div>
+    <% if (typeof seturi !== 'undefined' && seturi.length) { %>
+    <!-- BONUS 17: Afisez seturile din care face parte acest produs, cu pret set si lista produse -->
+    <section class="sectiune-seturi-produs" style="margin-top:2.5em;">
+        <h2 style="color:#DB8F2A;">Seturi din care face parte acest produs</h2>
+        <% seturi.forEach(function(set) { %>
+            <!-- Pentru fiecare set: nume, descriere, pret set cu reducere, lista produse -->
+            <div class="set-produs-card" style="margin-bottom:2em;padding:1.2em 1.5em;background:#fff8f0;border-radius:12px;box-shadow:0 2px 12px #db8f2a22;">
+                <h3 style="margin-top:0;"><%= set.nume_set %></h3>
+                <p style="margin-bottom:0.5em;"><%= set.descriere_set %></p>
+                <div style="font-weight:bold;margin-bottom:0.7em;">
+                    Pret set:
+                    <% if(set.reducere > 0) { %>
+                        <!-- Afisez pret initial taiat, pret final si procent reducere -->
+                        <span style="text-decoration:line-through;color:#888;font-weight:normal;"><%= set.pret_initial.toFixed(2) %> lei</span>
+                        <span style="color:#DB8F2A;font-size:1.1em;"> <%= set.pret_final.toFixed(2) %> lei</span>
+                        <span style="color:#388e3c;font-size:0.95em;">(-<%= (set.reducere*100).toFixed(0) %>%)</span>
+                    <% } else { %>
+                        <span style="color:#DB8F2A;font-size:1.1em;"><%= set.pret_initial.toFixed(2) %> lei</span>
+                    <% } %>
+                </div>
+                <!-- Lista produselor din set, fiecare cu imagine si nume link catre pagina proprie -->
+                <ul style="display:flex;flex-wrap:wrap;gap:1.5em 2.5em;list-style:none;padding:0;">
+                    <% set.produse.forEach(function(prod) { %>
+                        <li>
+                            <a href="/produs/<%= prod.id %>" style="text-decoration:none;color:inherit;">
+                                <img src="<%= prod.imagine %>" alt="<%= prod.nume %>" style="width:60px;height:60px;object-fit:cover;border-radius:7px;vertical-align:middle;box-shadow:0 1px 6px #db8f2a22;">
+                                <span style="margin-left:0.7em;font-weight:500;"><%= prod.nume %></span>
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% }); %>
+    </section>
+    <!-- Sfarsit bonus 17 -->
+    <% } %>
+    
+    <% if (typeof produseSimilare !== 'undefined' && produseSimilare.length) { %>
+    <!-- BONUS 16: Produse similare - afisez produse din aceeasi categorie cu afisaj sumar, stilizat ca la seturi -->
+    <section class="sectiune-produse-similare" style="margin-top:2.5em;">
+        <h2 style="color:#DB8F2A;">Produse similare din aceeași categorie</h2>
+        <div class="similare-card" style="background:#fff8f0;border-radius:12px;padding:1.2em 1.5em;box-shadow:0 2px 12px #db8f2a22;">
+            <ul style="display:flex;flex-wrap:wrap;gap:2.5em 2em;list-style:none;padding:0;margin:0;align-items:center;">
+                <% produseSimilare.forEach(function(prodSimilar) { %>
+                    <li>
+                        <a href="/produs/<%= prodSimilar.id %>" style="display:flex;align-items:center;gap:0.7em;text-decoration:none;color:inherit;min-width:220px;">
+                            <img src="<%= prodSimilar.imagine %>" alt="<%= prodSimilar.nume %>" style="width:60px;height:60px;object-fit:cover;border-radius:7px;vertical-align:middle;box-shadow:0 1px 6px #db8f2a22;">
+                            <span style="font-weight:500;font-size:1.08em;"><%= prodSimilar.nume %></span>
+                            <span style="margin-left:0.7em;color:#DB8F2A;font-weight:bold;white-space:nowrap;"> <%= prodSimilar.pret %> lei</span>
+                        </a>
+                    </li>
+                <% }); %>
+            </ul>
+        </div>
+    </section>
+    <!-- Sfarsit bonus 16 -->
+    <% } %>
 </main>
 
 <style>
-/* Aici stilizez bulinele (dots) de sub carusel. Fac bulina activa portocalie si usor mai mare */
+/* Aici stilizez bulinele (dots) de sub carusel. Fac bulina activa portocalie si usor mai mare bonus 9 */
 .carousel-dot {
     width: 12px;
     height: 12px;
@@ -61,40 +118,40 @@
 }
 </style>
 <script>
-// Aici am implementat logica caruselului cu 3 imagini identice, cu tranzitie smooth si dots
+// logica bonus 9
 (function(){
-    // Aici am creat un array cu 3 imagini identice, pentru ca asa a fost cerinta
+    // 3 imagini identice
     const images = ["<%= produs.imagine %>", "<%= produs.imagine %>", "<%= produs.imagine %>"];
-    let idx = 0; // Aici tin minte indexul imaginii curente
-    const img = document.getElementById('carousel-img'); // Referinta la imaginea din carusel
-    const dots = document.querySelectorAll('#carousel-dots .carousel-dot'); // Referinta la bulinele de sub carusel
-    // Aici actualizez bulinele ca sa arate care e activa
+    let idx = 0; 
+    const img = document.getElementById('carousel-img'); 
+    const dots = document.querySelectorAll('#carousel-dots .carousel-dot')
+
     function updateDots() {
         dots.forEach((dot, i) => {
             dot.classList.toggle('activ', i === idx);
         });
     }
-    // Aici schimb imaginea cu fade out si fade in, si actualizez bulina activa
+    // Aici schimb imaginea cu fade out si fade in, si actualizez bulina activa bonus 9
     function schimbaImagine(nouIdx) {
-        img.style.opacity = 0; // Fac imaginea invizibila (fade out)
+        img.style.opacity = 0; //  (fade out)
         setTimeout(() => {
-            idx = nouIdx; // Actualizez indexul
+            idx = nouIdx; 
             img.src = images[idx]; // Schimb sursa imaginii
             img.onload = () => {
-                img.style.opacity = 1; // Fac imaginea vizibila (fade in)
+                img.style.opacity = 1;
             };
-            updateDots(); // Actualizez bulinele
-        }, 400); // 400ms = durata tranzitiei CSS
+            updateDots(); 
+        }, 400); // durata tranzitiei 
     }
-    // Cand apas pe butonul stanga, trec la imaginea anterioara
+    // butonul stanga
     document.getElementById('carousel-prev').onclick = function() {
         schimbaImagine((idx + images.length - 1) % images.length);
     };
-    // Cand apas pe butonul dreapta, trec la imaginea urmatoare
+    // butonul dreapta
     document.getElementById('carousel-next').onclick = function() {
         schimbaImagine((idx + 1) % images.length);
     };
-    // Cand dau click pe o bulina, sar direct la imaginea respectiva
+    
     dots.forEach((dot, i) => {
         dot.onclick = function() {
             if(i !== idx) schimbaImagine(i);

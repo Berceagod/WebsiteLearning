@@ -5,6 +5,9 @@
     --culoare-bg-selectat: #43cea2;
 }
 
+/*
+selectie 
+*/
 ::selection {
     background: var(--culoare-bg-selectat);
     color: var(--culoare-text-selectat);
@@ -17,7 +20,11 @@
     text-shadow: 0 1px 2px var(--culoare-secundara);
 }
 
-/* Efect duotone pe imagine folosind before/after și mix-blend-mode */
+/*
+ Duotone pe imagine cu mix-blend-mode
+ 2 suprapuneri colorate (before/after) cu blend-mode dif
+*/
+
 .duotone-img {
     position: relative;
     width: 350px;
@@ -62,7 +69,12 @@
 .duotone-img:hover {
     box-shadow: 0 8px 32px rgba(0,0,0,0.28);
 }
-/* Efect reflexie cu ripple radial - versiune mai vizibilă */
+
+/*
+Reflexie
+textul are reflexie sub el, cu mască gradient și efect de undă la hover, plus un ripple radial animat.
+*/
+
 #reflexie-titlu-wrapper {
     display: flex;
     flex-direction: column;
@@ -79,19 +91,19 @@
 #reflexie-titlu-reflect {
     display: block;
     color: #222;
-    opacity: 0.65; /* Crescut de la 0.35 la 0.65 */
-    transform: scaleY(-1) scaleX(1.1); /* Făcut mai mare cu scaleX */
-    margin-top: 0.05em; /* Redus spațiul */
-    filter: blur(0.5px); /* Redus blur-ul */
+    opacity: 0.65; 
+    transform: scaleY(-1) scaleX(1.1);
+    margin-top: 0.05em; 
+    filter: blur(0.5px); 
     position: relative;
-    font-size: 1.05em; /* Făcut puțin mai mare */
+    font-size: 1.05em; 
     
-    /* Masca de bază pentru reflexie - mai puțin transparentă */
+    /* Masca pentru reflexie */
     mask-image: linear-gradient(
         to bottom,
-        rgba(0,0,0,0.8) 0%, /* Crescut de la 0.6 */
-        rgba(0,0,0,0.6) 30%, /* Crescut de la 0.3 */
-        rgba(0,0,0,0.3) 60%, /* Adăugat un pas intermediar */
+        rgba(0,0,0,0.8) 0%, 
+        rgba(0,0,0,0.6) 30%, 
+        rgba(0,0,0,0.3) 60%,
         transparent 100%
     );
     -webkit-mask-image: linear-gradient(
@@ -103,20 +115,20 @@
     );
 }
 
-/* Pseudo-element pentru efectul radial - mai intens */
+/* element pentru efectul radial - mai intens */
 #reflexie-titlu-reflect::before {
     content: '';
     position: absolute;
     top: 0;
     left: 50%;
-    width: 250%; /* Crescut de la 200% */
-    height: 120%; /* Crescut înălțimea */
+    width: 250%; 
+    height: 120%; 
     transform: translateX(-50%);
     background: radial-gradient(
         ellipse at center top,
-        rgba(255,255,255,0.7) 0%, /* Crescut intensitatea */
-        rgba(255,255,255,0.4) 25%, /* Crescut intensitatea */
-        rgba(255,255,255,0.2) 50%, /* Crescut intensitatea */
+        rgba(255,255,255,0.7) 0%, 
+        rgba(255,255,255,0.4) 25%, 
+        rgba(255,255,255,0.2) 50%, 
         rgba(255,255,255,0.1) 75%,
         transparent 100%
     );
@@ -124,7 +136,7 @@
     mix-blend-mode: overlay;
 }
 
-/* Animația radială la hover - mai vizibilă */
+/* animatia reflexie */
 #reflexie-titlu-wrapper:hover #reflexie-titlu-reflect::before {
     animation: radial-ripple 2s ease-out infinite;
 }
@@ -135,7 +147,7 @@
         transform: translateX(-50%) scale(0.3);
     }
     15% {
-        opacity: 1; /* Crescut opacitatea maximă */
+        opacity: 1; 
         transform: translateX(-50%) scale(0.5);
     }
     30% {
@@ -160,7 +172,6 @@
     }
 }
 
-/* Animație suplimentară pentru masca principală */
 #reflexie-titlu-wrapper:hover #reflexie-titlu-reflect {
     animation: water-distortion 3s ease-in-out infinite;
 }
@@ -201,6 +212,7 @@
         );
     }
 }
+
 
 /* Text pe coloane cu column-count și column-rule */
 .text-coloane {
@@ -317,6 +329,9 @@
     }
 }
 
+/*
+ Video ca background object-fit cover.
+*/
 .video-bg-container {
     position: fixed;
     top: 0; left: 0;
@@ -335,7 +350,7 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     object-fit: cover;
-    opacity: 0.7; /* Poți ajusta transparența */
+    opacity: 0.7;
     background: #000;
 }
 

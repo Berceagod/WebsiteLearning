@@ -26,7 +26,7 @@ window.addEventListener("DOMContentLoaded", function () {
     inputPret.addEventListener("input", function () {
         pretValoare.textContent = `(${inputPret.value})`;
     });
-
+    // am adaugat event listener la input sa se updateze automat la filtrare, bonus 4 onchange
     // Filtrare la orice schimbare de input (onchange/input)
     [inputNume, inputCategorie, inputDescriere, inputVarsta, inputMinifigurineIncluse, inputLuni].forEach(input => {
         if (input) input.addEventListener("input", filtreaza);
@@ -41,7 +41,7 @@ window.addEventListener("DOMContentLoaded", function () {
     // =============================
     const K_PRODUSE_PAGINA = 10; // număr maxim de produse pe pagină
     let paginaCurenta = 1;
-
+    //functia de afisare pe pagini bonus 5
     function afiseazaPagina(pagina, articole) {
         // Ascunde toate articolele
         articole.forEach(art => art.style.display = "none");
@@ -51,7 +51,7 @@ window.addEventListener("DOMContentLoaded", function () {
         let vizibile = articole.filter(art => !art.classList.contains('ascuns'));
         vizibile.slice(start, end).forEach(art => art.style.display = "");
     }
-
+// generarea paginilor
     function genereazaPaginare(nrPagini, paginaCurenta) {
         const paginare = document.getElementById('paginare');
         paginare.innerHTML = '';
@@ -83,14 +83,14 @@ window.addEventListener("DOMContentLoaded", function () {
     // Seturi pentru pin și ascundere temporară
     let pinned = new Set();
     let hiddenTemp = new Set();
-    // Pentru sesiune persistentă
+    // Pentru sesiune persistentă , sa o pastreze
     let hiddenSession = new Set(JSON.parse(sessionStorage.getItem('produseAscunseSession') || '[]'));
 
     function updateSessionStorage() {
         sessionStorage.setItem('produseAscunseSession', JSON.stringify(Array.from(hiddenSession)));
     }
 
-    // Evenimente pe butoane (la fiecare load/filtrare)
+    // Evenimente pe butoane (la fiecare load/filtrare) bonus 6
     function ataseazaActiuniProduse() {
         document.querySelectorAll('.btn-pin').forEach(btn => {
             btn.onclick = function(e) {
@@ -128,11 +128,11 @@ window.addEventListener("DOMContentLoaded", function () {
     // =============================
     // INTEGRARE CU FILTRAREA
     // =============================
-  // Aici s-a normalizat textul, bonusul 7
+  // Aici s-a normalizat textul, bonus 7
     function normalizeText(txt) {
         return txt.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toLowerCase();
     }
-
+// FILTRARE
     function filtreaza() {
         const valNume = normalizeText(inputNume.value);
         const valPret = parseFloat(inputPret.value);
@@ -199,7 +199,7 @@ window.addEventListener("DOMContentLoaded", function () {
             art.style.display = ok ? "" : "none";
         });
 
-        // Mesaj dacă nu există produse vizibile
+        // Mesaj dacă nu există produse vizibile bonus 3
         let lista = document.getElementById('lista-produse');
         let msgId = 'mesaj-nu-exista-produse';
         let msg = document.getElementById(msgId);
@@ -223,23 +223,54 @@ window.addEventListener("DOMContentLoaded", function () {
         ataseazaActiuniProduse();
     }
 
-    // Sortare
-    function sorteaza(semn) {
-        let vProduse = Array.from(articole).filter(art => art.style.display !== "none");
+    // =============================
+    // BONUS 8: Sortare multi-cheie aleasă de utilizator
+    // Utilizatorul alege două chei de sortare (ex: pret, numar_minifigurine, nume) și sensul (asc/desc) din selectoare.
+    // Sortarea se face după primul criteriu, apoi după al doilea dacă valorile sunt egale.
+    // La schimbarea oricărui select, sortarea se aplică automat.
+    // =============================
+    const selectCheie1 = document.getElementById("cheie-sortare-1");
+    const selectCheie2 = document.getElementById("cheie-sortare-2");
+    const selectSens = document.getElementById("sens-sortare");
+
+    function extrageValoareSort(art, cheie) {
+        switch (cheie) {
+            case "pret":
+                return parseFloat(art.querySelector(".produs-pret").textContent) || 0;
+            case "numar_minifigurine":
+                return parseInt(art.querySelector(".val-numar-minifigurine")?.textContent) || 0;
+            case "nume":
+                return art.querySelector(".val-nume").textContent.trim().toLowerCase();
+            default:
+                return 0;
+        }
+    }
+// Bonus 8
+    function sorteazaBonus8() {
+        let cheie1 = selectCheie1.value;
+        let cheie2 = selectCheie2.value;
+        let sens = selectSens.value;
+        let semn = sens === "asc" ? 1 : -1;
+        let vProduse = Array.from(document.querySelectorAll('.produs-articol')).filter(art => art.style.display !== "none");
         vProduse.sort(function(a, b) {
-            let pretA = parseFloat(a.querySelector(".produs-pret").textContent);
-            let pretB = parseFloat(b.querySelector(".produs-pret").textContent);
-            if (pretA !== pretB) return semn * (pretA - pretB);
-            // a doua cheie: număr minifigurine incluse
-            let minifigsA = (a.querySelector(".val-minifigurine-incluse").textContent.split(",").filter(x => x.trim() && x.trim().toLowerCase() !== "nicio minifigurină").length);
-            let minifigsB = (b.querySelector(".val-minifigurine-incluse").textContent.split(",").filter(x => x.trim() && x.trim().toLowerCase() !== "nicio minifigurină").length);
-            return semn * (minifigsA - minifigsB);
+            let valA1 = extrageValoareSort(a, cheie1);
+            let valB1 = extrageValoareSort(b, cheie1);
+            if (valA1 == valB1) {
+                let valA2 = extrageValoareSort(a, cheie2);
+                let valB2 = extrageValoareSort(b, cheie2);
+                if (valA2 == valB2) return 0;
+                return (valA2 > valB2 ? 1 : -1) * semn;
+            }
+            return (valA1 > valB1 ? 1 : -1) * semn;
         });
         let container = document.querySelector(".grid-produse");
         vProduse.forEach(art => container.appendChild(art));
     }
-    btnSortAsc.addEventListener("click", function() { sorteaza(1); });
-    btnSortDesc.addEventListener("click", function() { sorteaza(-1); });
+    // Apel sortare la schimbarea oricărui select (bonus 8)
+    [selectCheie1, selectCheie2, selectSens].forEach(sel => sel.addEventListener("change", sorteazaBonus8));
+    // Apel sortare și la click pe butoanele vechi (pentru compatibilitate)
+    btnSortAsc.addEventListener("click", function() { selectSens.value = "asc"; sorteazaBonus8(); });
+    btnSortDesc.addEventListener("click", function() { selectSens.value = "desc"; sorteazaBonus8(); });
 
     // Suma preturi vizibile
     btnSuma.addEventListener("click", function() {
@@ -303,9 +334,9 @@ window.addEventListener("DOMContentLoaded", function () {
     // Trigger initial
     filtreaza();
 
-    // =============================
-    // CSS pentru paginare modernă (inserat dinamic dacă nu există)
-    // =============================
+   
+    // CSS 
+   
     (function(){
         if (!document.getElementById('css-paginare')) {
             const style = document.createElement('style');
@@ -338,9 +369,8 @@ window.addEventListener("DOMContentLoaded", function () {
         }
     })();
 
-    // =============================
-    // CSS pentru stări butoane/produs (inserat dinamic dacă nu există)
-    // =============================
+    // CSS pt butoane
+
     (function(){
         if (!document.getElementById('css-actiuni-produse')) {
             const style = document.createElement('style');
@@ -377,9 +407,9 @@ window.addEventListener("DOMContentLoaded", function () {
         }
     })();
 
-    // =============================
-    // La load, la orice filtrare sau sortare, apelează pagineazaProduse() și atașează acțiuni
-    // =============================
+ 
+    // La load  apeleaza pagineazaProduse()
+
     pagineazaProduse();
     ataseazaActiuniProduse();
 });

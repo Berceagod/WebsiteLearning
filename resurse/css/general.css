@@ -299,7 +299,7 @@ main a:active {
     box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
     border-bottom: 4px solid var(--culoare-portocalie);
 }
-
+/*tema buton css*/
 #btn-theme {
     background: none;
     border: none;

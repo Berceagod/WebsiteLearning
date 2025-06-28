@@ -1,0 +1,69 @@
+<%- include('../fragmente/head', {titlu: 'Seturi de produse'}) %>
+<%- include('../fragmente/header') %>
+<main class="container">
+    <h1 style="margin-top:1.5em;">Seturi de produse</h1>
+    <section id="sectiune-seturi">
+        <!-- Pentru fiecare set, afisez numele, descrierea si pretul total cu reducere -->
+        <% if (typeof seturi !== 'undefined' && seturi.length) { %>
+            <div class="grid-seturi">
+                <% seturi.forEach(function(set) { 
+                    <!--// n = numar produse in set-->
+                    <!--// suma = suma preturilor produselor-->
+                   <!-- // reducere = min(5, n) * 5%-->
+                   <!-- // pretFinal = suma cu reducere aplicata-->
+                    let n = set.produse ? set.produse.length : 0;
+                    let suma = set.produse ? set.produse.reduce((acc, p) => acc + parseFloat(p.pret), 0) : 0;
+                    let reducere = Math.min(5, n) * 0.05;
+                    let pretFinal = suma * (1 - reducere);
+                %>
+                    <div class="set-card">
+                        <h2><%= set.nume_set %></h2>
+                        <p><%= set.descriere_set %>
+                        <% if(n > 0) { %>
+                            <span style="margin-left:2em;font-weight:bold;">
+                                Preț set:
+                                <% if(reducere > 0) { %>
+                                    <!-- Afisez pretul initial taiat, pretul final si procentul de reducere -->
+                                    <span style="text-decoration:line-through;color:#888;font-weight:normal;"><%= suma.toFixed(2) %> lei</span>
+                                    <span style="color:#DB8F2A;font-size:1.1em;"> <%= pretFinal.toFixed(2) %> lei</span>
+                                    <span style="color:#388e3c;font-size:0.95em;">(-<%= (reducere*100).toFixed(0) %>%)</span>
+                                <% } else { %>
+                                    <span style="color:#DB8F2A;font-size:1.1em;"><%= suma.toFixed(2) %> lei</span>
+                                <% } %>
+                            </span>
+                        <% } %>
+                        </p>
+                        <!-- Afisez lista produselor din set, fiecare cu imagine, nume si pret. Numele si imaginea sunt link catre pagina produsului. -->
+                        <% if(set.produse && set.produse.length) { %>
+                            <ul>
+                                <% set.produse.forEach(function(prod) { %>
+                                    <li>
+                                        <a href="/produs/<%= prod.id %>">
+                                            <img src="<%= prod.imagine %>" alt="<%= prod.nume %>" style="width:60px;height:60px;object-fit:cover;vertical-align:middle;">
+                                            <span><%= prod.nume %></span>
+                                        </a>
+                                        <span style="margin-left:1em;">(<%= prod.pret %> lei)</span>
+                                    </li>
+                                <% }); %>
+                            </ul>
+                        <% } else { %>
+                            <p>Nu exista produse in acest set.</p>
+                        <% } %>
+                    </div>
+                <% }); %>
+            </div>
+        <% } else { %>
+            <p>Nu exista seturi de produse de afisat.</p>
+        <% } %>
+    </section>
+</main>
+<%- include('../fragmente/footer') %>
+
+<style>
+#sectiune-seturi a,
+#sectiune-seturi a:visited,
+#sectiune-seturi a:active {
+    color: #007bff; 
+    text-decoration: underline;
+}
+</style> 
